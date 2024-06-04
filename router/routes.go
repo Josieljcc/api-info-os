@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	"github.com/Josieljcc/api-info-os/handler"
+	"github.com/Josieljcc/api-info-os/controller"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,9 +14,9 @@ func initializeRoutes(router *gin.Engine) {
 			"status": "ok",
 		})
 	})
-	v1.GET("/client", handler.GetClientHandler)
-	v1.POST("/client", handler.CreateClientHandler)
-	v1.DELETE("/client", handler.DeleteClientHandler)
-	v1.PUT("/client", handler.EditClientHandler)
-	v1.GET("/clients", handler.GetClientsHandler)
+	v1.GET("/client/:id", controller.GetClientController)
+	v1.POST("/client", controller.CreateClientController)
+	v1.DELETE("/client/:id", controller.DeleteClientController)
+	v1.PUT("/client", controller.EditClientController)
+	v1.GET("/clients", controller.GetClientsController)
 }
