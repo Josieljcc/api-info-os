@@ -33,12 +33,22 @@ func CreateClient(client schemas.Client) (schemas.Client, error) {
 	return client, nil
 }
 
-func UpdateClient(client schemas.Client) (schemas.Client, error) {
+func UpdateClient(client schemas.Client, id string) error {
 	db := config.GetDB()
-	if err := db.Save(&client).Error; err != nil {
-		return schemas.Client{}, err
+	var clientUpdated schemas.Client
+	err := db.First(&clientUpdated, id).Error
+	if err != nil {
+		return err
 	}
-	return client, nil
+	clientUpdated.Name = client.Name
+	clientUpdated.Password = client.Password
+	clientUpdated.Email = client.Email
+	clientUpdated.Address = client.Address
+	clientUpdated.Phone = client.Phone
+	if err := db.Save(&clientUpdated).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func DeleteClient(id string) error {

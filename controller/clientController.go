@@ -56,15 +56,16 @@ func GetClientsController(c *gin.Context) {
 	})
 }
 
-func EditClientController(c *gin.Context) {
+func UpdateClientController(c *gin.Context) {
 	var client schemas.Client
+	id := c.Param("id")
 	if err := c.ShouldBindJSON(&client); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	client, err := service.UpdateClient(client)
+	err := service.UpdateClient(client, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -72,7 +73,7 @@ func EditClientController(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"client": client,
+		"client": "client updated",
 	})
 }
 
