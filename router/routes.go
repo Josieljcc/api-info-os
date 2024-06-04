@@ -14,9 +14,17 @@ func initializeRoutes(router *gin.Engine) {
 			"status": "ok",
 		})
 	})
+
 	v1.GET("/client/:id", controller.GetClientController)
 	v1.POST("/client", controller.CreateClientController)
 	v1.DELETE("/client/:id", controller.DeleteClientController)
-	v1.PUT("/client", controller.EditClientController)
+	v1.PUT("/client/:id", controller.UpdateClientController)
 	v1.GET("/clients", controller.GetClientsController)
+
+	v1.GET("/technician/:id", controller.GetTechnicianController)
+	v1.POST("/technician", controller.CreateTechnicianController)
+	v1.DELETE("/technician/:id", controller.DeleteTechnicianController)
+	v1.PUT("/technician/:id", controller.UpdateTechnicianController)
+	v1.GET("/technicians", controller.GetTechniciansController)
+
 }
