@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
+	"github.com/Josieljcc/api-info-os/utils"
 )
 
 func GetTechnician(id string) (schemas.Technician, error) {
@@ -19,10 +20,18 @@ func GetTechnicians() ([]schemas.Technician, error) {
 	return technicians, err
 }
 
-func CreateTechnician(technician schemas.Technician) error {
+func CreateTechnician(technician schemas.Technician) (technicianResponse schemas.TechnicianResponse, err error) {
 	db := config.GetDB()
-	err := db.Create(&technician).Error
-	return err
+	hashedPassword, err := utils.HashPassword(technician.Password)
+	if err != nil {
+		return schemas.TechnicianResponse{}, err
+	}
+	technician.Password = string(hashedPassword)
+	if err := db.Create(&technician).Error; err != nil {
+		return schemas.TechnicianResponse{}, err
+	}
+
+	return technician.ToResponse(), nil
 }
 
 func DeleteTechnician(id string) error {
