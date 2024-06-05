@@ -8,22 +8,26 @@ import (
 	"github.com/Josieljcc/api-info-os/utils"
 )
 
-func GetClients() ([]schemas.Client, error) {
+func GetClients() ([]schemas.ClientResponse, error) {
 	db := config.GetDB()
 	var clients []schemas.Client
 	if err := db.Find(&clients).Error; err != nil {
 		return nil, err
 	}
-	return clients, nil
+	var clientsResponse []schemas.ClientResponse
+	for _, client := range clients {
+		clientsResponse = append(clientsResponse, client.ToResponse())
+	}
+	return clientsResponse, nil
 }
 
-func GetClient(id string) (schemas.Client, error) {
+func GetClient(id string) (schemas.ClientResponse, error) {
 	db := config.GetDB()
 	var client schemas.Client
 	if err := db.First(&client, id).Error; err != nil {
-		return schemas.Client{}, err
+		return schemas.ClientResponse{}, err
 	}
-	return client, nil
+	return client.ToResponse(), nil
 }
 
 func CreateClient(client schemas.Client) (schemas.ClientResponse, error) {

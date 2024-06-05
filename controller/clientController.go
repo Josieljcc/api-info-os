@@ -22,9 +22,7 @@ func CreateClientController(c *gin.Context) {
 			"error": err.Error(),
 		})
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"client": clientResponse,
-	})
+	c.JSON(http.StatusOK, clientResponse)
 }
 
 func GetClientController(c *gin.Context) {
@@ -36,27 +34,18 @@ func GetClientController(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"client": client.ToResponse(),
-	})
+	c.JSON(http.StatusOK, client)
 }
 
 func GetClientsController(c *gin.Context) {
-	clients, err := service.GetClients()
+	clientsResponse, err := service.GetClients()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	var clientsResponse []schemas.ClientResponse
-	for _, client := range clients {
-		clientsResponse = append(clientsResponse, client.ToResponse())
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"clients": clientsResponse,
-	})
+	c.JSON(http.StatusOK, clientsResponse)
 }
 
 func UpdateClientController(c *gin.Context) {
