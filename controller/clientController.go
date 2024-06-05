@@ -3,7 +3,6 @@ package controller
 import (
 	"net/http"
 
-	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/service"
 	"github.com/gin-gonic/gin"
@@ -17,15 +16,14 @@ func CreateClientController(c *gin.Context) {
 		})
 		return
 	}
-	var db = config.GetDB()
-	if err := db.Create(&client).Error; err != nil {
+	clientResponse, err := service.CreateClient(client)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
-		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"client": client,
+		"client": clientResponse,
 	})
 }
 
@@ -39,7 +37,7 @@ func GetClientController(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"client": client,
+		"client": client.ToResponse(),
 	})
 }
 
@@ -51,8 +49,13 @@ func GetClientsController(c *gin.Context) {
 		})
 		return
 	}
+	var clientsResponse []schemas.ClientResponse
+	for _, client := range clients {
+		clientsResponse = append(clientsResponse, client.ToResponse())
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"clients": clients,
+		"clients": clientsResponse,
 	})
 }
 
