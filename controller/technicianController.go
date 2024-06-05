@@ -18,7 +18,7 @@ func GetTechnicianController(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, technician)
+	c.JSON(http.StatusOK, technician.ToResponse())
 }
 
 func CreateTechnicianController(c *gin.Context) {
@@ -29,13 +29,13 @@ func CreateTechnicianController(c *gin.Context) {
 		})
 		return
 	}
-	if err := service.CreateTechnician(technician); err != nil {
+	technicianResponse, err := service.CreateTechnician(technician)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
-		return
 	}
-	c.JSON(http.StatusOK, technician)
+	c.JSON(http.StatusOK, technicianResponse)
 }
 
 func UpdateTechnicianController(c *gin.Context) {
@@ -80,5 +80,9 @@ func GetTechniciansController(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, technicians)
+	var techniciansResponse []schemas.TechnicianResponse
+	for _, technician := range technicians {
+		techniciansResponse = append(techniciansResponse, technician.ToResponse())
+	}
+	c.JSON(http.StatusOK, techniciansResponse)
 }

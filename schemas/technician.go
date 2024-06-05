@@ -1,8 +1,6 @@
 package schemas
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -16,13 +14,19 @@ type Technician struct {
 }
 
 type TechnicianResponse struct {
-	ID        uint      `json:"id"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt time.Time `json:"deletedAt,omitempty"`
-	Name      string    `json:"name"`
-	Password  string    `json:"password"`
-	Email     string    `json:"email"`
-	Phone     string    `json:"phone"`
-	Orders    []Order   `json:"orders"`
+	ID     uint    `json:"id"`
+	Name   string  `json:"name"`
+	Email  string  `json:"email"`
+	Phone  string  `json:"phone"`
+	Orders []Order `json:"orders"`
+}
+
+func (t Technician) ToResponse() TechnicianResponse {
+	return TechnicianResponse{
+		ID:     t.ID,
+		Name:   t.Name,
+		Email:  t.Email,
+		Phone:  t.Phone,
+		Orders: t.Orders,
+	}
 }
