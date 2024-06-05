@@ -5,6 +5,7 @@ import (
 
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
+	"github.com/Josieljcc/api-info-os/utils"
 )
 
 func GetClients() ([]schemas.Client, error) {
@@ -25,12 +26,20 @@ func GetClient(id string) (schemas.Client, error) {
 	return client, nil
 }
 
-func CreateClient(client schemas.Client) (schemas.Client, error) {
+func CreateClient(client schemas.Client) (schemas.ClientResponse, error) {
 	db := config.GetDB()
-	if err := db.Create(&client).Error; err != nil {
-		return schemas.Client{}, err
+	hashedPassword, err := utils.HashPassword(client.Password)
+	if err != nil {
+		return schemas.ClientResponse{}, err
 	}
-	return client, nil
+	client.Password = string(hashedPassword)
+	log.Printf("Hashed password: %s", string(hashedPassword))
+
+	if err := db.Create(&client).Error; err != nil {
+		return schemas.ClientResponse{}, err
+	}
+
+	return client.ToResponse(), nil
 }
 
 func UpdateClient(client schemas.Client, id string) error {
@@ -56,6 +65,5 @@ func DeleteClient(id string) error {
 	if err := db.Delete(&schemas.Client{}, id).Error; err != nil {
 		return err
 	}
-	log.Printf("Client %s deleted", id)
 	return nil
 }
