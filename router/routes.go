@@ -27,4 +27,10 @@ func initializeRoutes(router *gin.Engine) {
 	v1.PUT("/technician/:id", controller.UpdateTechnicianController)
 	v1.GET("/technicians", controller.GetTechniciansController)
 
+	v1.GET("/part/:id", controller.GetPartController)
+	v1.POST("/part", controller.CreatePartController)
+	v1.DELETE("/part/:id", controller.DeletePartController)
+	v1.PUT("/part/:id", controller.UpdatePartController)
+	v1.GET("/parts", controller.GetPartsController)
+
 }

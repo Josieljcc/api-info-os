@@ -1,8 +1,6 @@
 package schemas
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -16,13 +14,21 @@ type Part struct {
 }
 
 type PartResponse struct {
-	ID          uint      `json:"id"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-	DeletedAt   time.Time `json:"deletedAt,omitempty"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Quantity    int       `json:"quantity"`
-	Price       float64   `json:"price"`
-	Orders      []Order   `json:"orders"`
+	ID          uint    `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Quantity    int     `json:"quantity"`
+	Price       float64 `json:"price"`
+	Orders      []Order `json:"orders"`
+}
+
+func (p Part) ToResponse() PartResponse {
+	return PartResponse{
+		ID:          p.ID,
+		Name:        p.Name,
+		Description: p.Description,
+		Quantity:    p.Quantity,
+		Price:       p.Price,
+		Orders:      p.Orders,
+	}
 }
