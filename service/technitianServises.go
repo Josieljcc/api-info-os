@@ -47,10 +47,23 @@ func UpdateTechnician(technician schemas.Technician, id string) error {
 	if err != nil {
 		return err
 	}
-	technicianUpdated.Name = technician.Name
-	technicianUpdated.Password = technician.Password
-	technicianUpdated.Email = technician.Email
-	technicianUpdated.Phone = technician.Phone
+	if technician.Name != "" {
+		technicianUpdated.Name = technician.Name
+	}
+	if technician.Password != "" {
+		hashedPassword, err := utils.HashPassword(technician.Password)
+		if err != nil {
+			return err
+		}
+		technicianUpdated.Password = string(hashedPassword)
+	}
+	if technician.Email != "" {
+		technicianUpdated.Email = technician.Email
+	}
+	if technician.Phone != "" {
+		technicianUpdated.Phone = technician.Phone
+	}
+
 	if err := db.Save(&technicianUpdated).Error; err != nil {
 		return err
 	}

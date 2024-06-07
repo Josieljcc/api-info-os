@@ -53,11 +53,25 @@ func UpdateClient(client schemas.Client, id string) error {
 	if err != nil {
 		return err
 	}
-	clientUpdated.Name = client.Name
-	clientUpdated.Password = client.Password
-	clientUpdated.Email = client.Email
-	clientUpdated.Address = client.Address
-	clientUpdated.Phone = client.Phone
+	if client.Name != "" {
+		clientUpdated.Name = client.Name
+	}
+	if client.Password != "" {
+		hashedPassword, err := utils.HashPassword(client.Password)
+		if err != nil {
+			return err
+		}
+		clientUpdated.Password = string(hashedPassword)
+	}
+	if client.Email != "" {
+		clientUpdated.Email = client.Email
+	}
+	if client.Address != "" {
+		clientUpdated.Address = client.Address
+	}
+	if client.Phone != "" {
+		clientUpdated.Phone = client.Phone
+	}
 	if err := db.Save(&clientUpdated).Error; err != nil {
 		return err
 	}
