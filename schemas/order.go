@@ -15,9 +15,6 @@ type Order struct {
 
 type OrderResponse struct {
 	ID         uint       `json:"id"`
-	CreatedAt  string     `json:"createdAt"`
-	UpdatedAt  string     `json:"updatedAt"`
-	DeletedAt  string     `json:"deletedAt,omitempty"`
 	Date       string     `json:"date"`
 	Status     string     `json:"status"`
 	Comment    string     `json:"comment"`
