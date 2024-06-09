@@ -33,4 +33,15 @@ func initializeRoutes(router *gin.Engine) {
 	v1.PUT("/part/:id", controller.UpdatePartController)
 	v1.GET("/parts", controller.GetPartsController)
 
+	v1.GET("/order/:id", controller.GetOrderController)
+	v1.POST("/order", controller.CreateOrderController)
+	v1.GET("/orders", controller.GetOrdersController)
+	v1.DELETE("/order/:id", controller.DeleteOrderController)
+	v1.PUT("/order/:id", controller.UpdateOrderController)
+
+	v1.GET("/service/:id", controller.GetServiceController)
+	v1.POST("/service", controller.CreateServiceController)
+	v1.GET("/services", controller.GetServicesController)
+	v1.PUT("/service/:id", controller.UpdateServiceController)
+	v1.DELETE("/service/:id", controller.DeleteServiceController)
 }
