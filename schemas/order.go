@@ -23,3 +23,14 @@ type OrderResponse struct {
 	Services   []Service  `json:"services"`
 	Parts      []Part     `json:"parts"`
 }
+
+func (o Order) ToResponse() OrderResponse {
+	return OrderResponse{
+		ID:       o.ID,
+		Date:     o.Date,
+		Status:   o.Status,
+		Comment:  o.Comment,
+		Services: o.Services,
+		Parts:    o.Parts,
+	}
+}
