@@ -2,7 +2,7 @@
 # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
 #
 
-.env
+*.env
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -22,3 +22,5 @@
 # Go workspace file
 go.work
 go.work.sum
+
+/temp/*
