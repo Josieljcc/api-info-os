@@ -10,9 +10,10 @@ import (
 
 func initMySQL() (*gorm.DB, error) {
 	logger := GetLogger("[mysql] ")
-	dsn := os.Getenv("DATABASE_URL")
+	dsn := os.Getenv("URL_DATABASE")
 	if dsn == "" {
-		dsn = "admin:infoOskey@tcp(127.0.0.1:3306)/infoos?charset=utf8mb4&parseTime=True&loc=Local"
+		logger.Errorf("URL_DATABASE is not set")
+		return nil, new(os.PathError)
 	}
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
