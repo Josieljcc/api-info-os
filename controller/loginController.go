@@ -6,6 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Login
+// @Description Login
+// @Tags Login
+// @Accept  json
+// @Produce  json
+// @Param   email    query  string  true "Email"
+// @Param   password    query  string  true "Password"
+// @Router /login [post]
 func LoginController(c *gin.Context) {
 	var creds struct {
 		Email    string `json:"email"`

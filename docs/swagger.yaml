@@ -1,0 +1,619 @@
+basePath: /api/v1
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  schemas.Client:
+    properties:
+      address:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      orders:
+        items:
+          $ref: '#/definitions/schemas.Order'
+        type: array
+      password:
+        type: string
+      phone:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  schemas.ClientResponse:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+    type: object
+  schemas.Order:
+    properties:
+      clientID:
+        type: string
+      comment:
+        type: string
+      createdAt:
+        type: string
+      date:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      parts:
+        items:
+          $ref: '#/definitions/schemas.Part'
+        type: array
+      services:
+        items:
+          $ref: '#/definitions/schemas.Service'
+        type: array
+      status:
+        type: string
+      technicianID:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  schemas.Part:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      orders:
+        items:
+          $ref: '#/definitions/schemas.Order'
+        type: array
+      price:
+        type: number
+      quantity:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  schemas.Service:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      orders:
+        items:
+          $ref: '#/definitions/schemas.Order'
+        type: array
+      price:
+        type: number
+      time:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  schemas.Technician:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      orders:
+        items:
+          $ref: '#/definitions/schemas.Order'
+        type: array
+      password:
+        type: string
+      phone:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Esta é a API para controle de ordens de serviço em uma assistência
+    de manutenção de computadores.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: API de Controle de Ordens de Serviço
+  version: "1.0"
+paths:
+  /clients:
+    get:
+      consumes:
+      - application/json
+      description: Get all clients
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schemas.Client'
+            type: array
+      summary: Get all clients
+      tags:
+      - Client
+    post:
+      consumes:
+      - application/json
+      description: Create a new client
+      parameters:
+      - description: Client
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Client'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ClientResponse'
+      summary: Create a new client
+      tags:
+      - Client
+  /clients/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a client
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ClientResponse'
+      summary: Delete a client
+      tags:
+      - Client
+    get:
+      consumes:
+      - application/json
+      description: Get a client
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.Client'
+      summary: Get a client
+      tags:
+      - Client
+    put:
+      consumes:
+      - application/json
+      description: Update a client
+      parameters:
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Client
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Client'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ClientResponse'
+      summary: Update a client
+      tags:
+      - Client
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: Password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Login
+      tags:
+      - Login
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get Orders
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Orders
+      tags:
+      - Order
+    post:
+      consumes:
+      - application/json
+      description: Create Order
+      parameters:
+      - description: Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Order'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create Order
+      tags:
+      - Order
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Order
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete Order
+      tags:
+      - Order
+    get:
+      consumes:
+      - application/json
+      description: Get Order
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Order
+      tags:
+      - Order
+    put:
+      consumes:
+      - application/json
+      description: Update Order
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Order'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update Order
+      tags:
+      - Order
+  /parts:
+    get:
+      consumes:
+      - application/json
+      description: Get Parts
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Parts
+      tags:
+      - Part
+    post:
+      consumes:
+      - application/json
+      description: Create Part
+      parameters:
+      - description: Part
+        in: body
+        name: part
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Part'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create Part
+      tags:
+      - Part
+  /parts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Part
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete Part
+      tags:
+      - Part
+    get:
+      consumes:
+      - application/json
+      description: Get Part
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Part
+      tags:
+      - Part
+    put:
+      consumes:
+      - application/json
+      description: Update Part
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Part
+        in: body
+        name: part
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Part'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update Part
+      tags:
+      - Part
+  /services:
+    get:
+      consumes:
+      - application/json
+      description: Get Services
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Services
+      tags:
+      - Service
+    post:
+      consumes:
+      - application/json
+      description: Create Service
+      parameters:
+      - description: Service
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Service'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create Service
+      tags:
+      - Service
+  /services/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Service
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete Service
+      tags:
+      - Service
+    get:
+      consumes:
+      - application/json
+      description: Get Service
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Service
+      tags:
+      - Service
+    put:
+      consumes:
+      - application/json
+      description: Update Service
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Service
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Service'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update Service
+      tags:
+      - Service
+  /technicians:
+    get:
+      consumes:
+      - application/json
+      description: Get Technicians
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Technicians
+      tags:
+      - Technician
+    post:
+      consumes:
+      - application/json
+      description: Create Technician
+      parameters:
+      - description: Technician
+        in: body
+        name: technician
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Technician'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create Technician
+      tags:
+      - Technician
+  /technicians/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Technician
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete Technician
+      tags:
+      - Technician
+    get:
+      consumes:
+      - application/json
+      description: Get Technician
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Technician
+      tags:
+      - Technician
+    put:
+      consumes:
+      - application/json
+      description: Update Technician
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Technician
+        in: body
+        name: technician
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.Technician'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update Technician
+      tags:
+      - Technician
+swagger: "2.0"

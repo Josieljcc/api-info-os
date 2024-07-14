@@ -8,6 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Get Technician
+// @Description Get Technician
+// @Tags Technician
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "ID"
+// @Router /technicians/{id} [get]
 func GetTechnicianController(c *gin.Context) {
 	id := c.Param("id")
 	technician, err := service.GetTechnician(id)
@@ -21,6 +28,13 @@ func GetTechnicianController(c *gin.Context) {
 	c.JSON(http.StatusOK, technician.ToResponse())
 }
 
+// @Summary Create Technician
+// @Description Create Technician
+// @Tags Technician
+// @Accept  json
+// @Produce  json
+// @Param   technician    body  schemas.Technician  true "Technician"
+// @Router /technicians [post]
 func CreateTechnicianController(c *gin.Context) {
 	var technician schemas.Technician
 	if err := c.ShouldBindJSON(&technician); err != nil {
@@ -38,6 +52,14 @@ func CreateTechnicianController(c *gin.Context) {
 	c.JSON(http.StatusOK, technicianResponse)
 }
 
+// @Summary Update Technician
+// @Description Update Technician
+// @Tags Technician
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "ID"
+// @Param   technician    body  schemas.Technician  true "Technician"
+// @Router /technicians/{id} [put]
 func UpdateTechnicianController(c *gin.Context) {
 	id := c.Param("id")
 	var technician schemas.Technician
@@ -59,6 +81,13 @@ func UpdateTechnicianController(c *gin.Context) {
 	})
 }
 
+// @Summary Delete Technician
+// @Description Delete Technician
+// @Tags Technician
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "ID"
+// @Router /technicians/{id} [delete]
 func DeleteTechnicianController(c *gin.Context) {
 	id := c.Param("id")
 	if err := service.DeleteTechnician(id); err != nil {
@@ -72,6 +101,12 @@ func DeleteTechnicianController(c *gin.Context) {
 	})
 }
 
+// @Summary Get Technicians
+// @Description Get Technicians
+// @Tags Technician
+// @Accept  json
+// @Produce  json
+// @Router /technicians [get]
 func GetTechniciansController(c *gin.Context) {
 	technicians, err := service.GetTechnicians()
 	if err != nil {

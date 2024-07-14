@@ -8,6 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateClient godoc
+// @Summary Create a new client
+// @Description Create a new client
+// @Tags Client
+// @Accept json
+// @Produce json
+// @Param client body schemas.Client true "Client"
+// @Success 200 {object} schemas.ClientResponse
+// @Router /clients [post]
 func CreateClientController(c *gin.Context) {
 	var client schemas.Client
 	if err := c.ShouldBindJSON(&client); err != nil {
@@ -25,6 +34,15 @@ func CreateClientController(c *gin.Context) {
 	c.JSON(http.StatusOK, clientResponse)
 }
 
+// GetClient godoc
+// @Summary Get a client
+// @Description Get a client
+// @Tags Client
+// @Accept json
+// @Produce json
+// @Param id path string true "Client ID"
+// @Success 200 {object} schemas.Client
+// @Router /clients/{id} [get]
 func GetClientController(c *gin.Context) {
 	id := c.Params.ByName("id")
 	client, err := service.GetClient(id)
@@ -37,6 +55,14 @@ func GetClientController(c *gin.Context) {
 	c.JSON(http.StatusOK, client)
 }
 
+// GetClients godoc
+// @Summary Get all clients
+// @Description Get all clients
+// @Tags Client
+// @Accept json
+// @Produce json
+// @Success 200 {object} []schemas.Client
+// @Router /clients [get]
 func GetClientsController(c *gin.Context) {
 	clientsResponse, err := service.GetClients()
 	if err != nil {
@@ -48,6 +74,16 @@ func GetClientsController(c *gin.Context) {
 	c.JSON(http.StatusOK, clientsResponse)
 }
 
+// UpdateClient godoc
+// @Summary Update a client
+// @Description Update a client
+// @Tags Client
+// @Accept json
+// @Produce json
+// @Param id path string true "Client ID"
+// @Param client body schemas.Client true "Client"
+// @Success 200 {object} schemas.ClientResponse
+// @Router /clients/{id} [put]
 func UpdateClientController(c *gin.Context) {
 	var client schemas.Client
 	id := c.Param("id")
@@ -69,6 +105,15 @@ func UpdateClientController(c *gin.Context) {
 	})
 }
 
+// DeleteClient godoc
+// @Summary Delete a client
+// @Description Delete a client
+// @Tags Client
+// @Accept json
+// @Produce json
+// @Param id path string true "Client ID"
+// @Success 200 {object} schemas.ClientResponse
+// @Router /clients/{id} [delete]
 func DeleteClientController(c *gin.Context) {
 	id := c.Params.ByName("id")
 	if err := service.DeleteClient(id); err != nil {

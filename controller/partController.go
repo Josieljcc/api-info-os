@@ -8,6 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Get Parts
+// @Description Get Parts
+// @Tags Part
+// @Accept  json
+// @Produce  json
+// @Router /parts [get]
 func GetPartsController(c *gin.Context) {
 	partsResponse, err := service.GetParts()
 	if err != nil {
@@ -19,6 +25,13 @@ func GetPartsController(c *gin.Context) {
 	c.JSON(http.StatusOK, partsResponse)
 }
 
+// @Summary Get Part
+// @Description Get Part
+// @Tags Part
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "ID"
+// @Router /parts/{id} [get]
 func GetPartController(c *gin.Context) {
 	id := c.Params.ByName("id")
 	partResponse, err := service.GetPart(id)
@@ -31,6 +44,13 @@ func GetPartController(c *gin.Context) {
 	c.JSON(http.StatusOK, partResponse)
 }
 
+// @Summary Create Part
+// @Description Create Part
+// @Tags Part
+// @Accept  json
+// @Produce  json
+// @Param   part    body  schemas.Part  true "Part"
+// @Router /parts [post]
 func CreatePartController(c *gin.Context) {
 	var part schemas.Part
 	if err := c.ShouldBindJSON(&part); err != nil {
@@ -48,6 +68,14 @@ func CreatePartController(c *gin.Context) {
 	c.JSON(http.StatusOK, partResponse)
 }
 
+// @Summary Update Part
+// @Description Update Part
+// @Tags Part
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "ID"
+// @Param   part    body  schemas.Part  true "Part"
+// @Router /parts/{id} [put]
 func UpdatePartController(c *gin.Context) {
 	id := c.Param("id")
 	var part schemas.Part
@@ -66,6 +94,13 @@ func UpdatePartController(c *gin.Context) {
 	c.JSON(http.StatusOK, partResponse)
 }
 
+// @Summary Delete Part
+// @Description Delete Part
+// @Tags Part
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "ID"
+// @Router /parts/{id} [delete]
 func DeletePartController(c *gin.Context) {
 	id := c.Params.ByName("id")
 	if err := service.DeletePart(id); err != nil {

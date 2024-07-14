@@ -6,6 +6,8 @@ import (
 	"github.com/Josieljcc/api-info-os/controller"
 	"github.com/Josieljcc/api-info-os/middleware"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func initializeRoutes(router *gin.Engine) {
@@ -15,6 +17,8 @@ func initializeRoutes(router *gin.Engine) {
 			"status": "ok",
 		})
 	})
+
+	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	v1.POST("/login", controller.LoginController)
 
