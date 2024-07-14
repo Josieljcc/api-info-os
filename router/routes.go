@@ -15,6 +15,8 @@ func initializeRoutes(router *gin.Engine) {
 		})
 	})
 
+	v1.POST("/login", controller.LoginController)
+
 	v1.GET("/client/:id", controller.GetClientController)
 	v1.POST("/client", controller.CreateClientController)
 	v1.DELETE("/client/:id", controller.DeleteClientController)
