@@ -27,29 +27,16 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-			}
-			return []byte(os.Getenv("JWT_SECRET")), nil
-		})
-
+		token, err := jwt.Parse(tokenString, validateToken)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
 			c.Abort()
 			return
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			expiration, ok := claims["exp"].(float64)
-			if !ok {
-				c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-				c.Abort()
-				return
-			}
-
-			if int64(expiration) < time.Now().Unix() {
-				c.JSON(http.StatusUnauthorized, gin.H{"error": "Token has expired"})
+			if err := validateExpiration(claims); err != nil {
+				c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 				c.Abort()
 				return
 			}
@@ -63,4 +50,24 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		c.Next()
 	}
+}
+
+func validateToken(token *jwt.Token) (interface{}, error) {
+	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+	}
+	return []byte(os.Getenv("JWT_SECRET")), nil
+}
+
+func validateExpiration(claims jwt.MapClaims) error {
+	expiration, ok := claims["exp"].(float64)
+	if !ok {
+		return fmt.Errorf("invalid token")
+	}
+
+	if int64(expiration) < time.Now().Unix() {
+		return fmt.Errorf("token has expired")
+	}
+
+	return nil
 }
