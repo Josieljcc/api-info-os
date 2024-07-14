@@ -13,6 +13,13 @@ func GetTechnician(id string) (schemas.Technician, error) {
 	return technician, err
 }
 
+func GetTechnicianByEmail(email string) (schemas.Technician, error) {
+	db := config.GetDB()
+	var technician schemas.Technician
+	err := db.Where("email = ?", email).First(&technician).Error
+	return technician, err
+}
+
 func GetTechnicians() ([]schemas.Technician, error) {
 	db := config.GetDB()
 	var technicians []schemas.Technician
