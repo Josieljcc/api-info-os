@@ -21,6 +21,13 @@ func GetClients() ([]schemas.ClientResponse, error) {
 	return clientsResponse, nil
 }
 
+func GetClientByEmail(email string) (schemas.Client, error) {
+	db := config.GetDB()
+	var client schemas.Client
+	err := db.Where("email = ?", email).First(&client).Error
+	return client, err
+}
+
 func GetClient(id string) (schemas.ClientResponse, error) {
 	db := config.GetDB()
 	var client schemas.Client
