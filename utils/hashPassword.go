@@ -2,8 +2,11 @@ package utils
 
 import "golang.org/x/crypto/bcrypt"
 
+const salt = "infoOskeysalt"
+
 func HashPassword(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	saltedPassword := []byte(password + salt)
+	hashedPassword, err := bcrypt.GenerateFromPassword(saltedPassword, bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
 	}
@@ -11,6 +14,7 @@ func HashPassword(password string) (string, error) {
 }
 
 func CheckPassword(password, hashedPassword string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	saltedPassword := []byte(password + salt)
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), saltedPassword)
 	return err == nil
 }
