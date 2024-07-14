@@ -18,36 +18,42 @@ func initializeRoutes(router *gin.Engine) {
 
 	v1.POST("/login", controller.LoginController)
 
+	var clientPatch = "/client"
+	var technicianPatch = "/technician"
+	var partPatch = "/part"
+	var orderPatch = "/order"
+	var servicePatch = "/service"
+
 	authRoutes := v1.Group("/")
 	authRoutes.Use(middleware.AuthMiddleware())
 
-	authRoutes.GET("/client/:id", controller.GetClientController)
-	authRoutes.POST("/client", controller.CreateClientController)
-	authRoutes.DELETE("/client/:id", controller.DeleteClientController)
-	authRoutes.PUT("/client/:id", controller.UpdateClientController)
+	authRoutes.GET(clientPatch+"/:id", controller.GetClientController)
+	authRoutes.POST(clientPatch, controller.CreateClientController)
+	authRoutes.DELETE(clientPatch+"/:id", controller.DeleteClientController)
+	authRoutes.PUT(clientPatch+"/:id", controller.UpdateClientController)
 	authRoutes.GET("/clients", controller.GetClientsController)
 
-	authRoutes.GET("/technician/:id", controller.GetTechnicianController)
-	authRoutes.POST("/technician", controller.CreateTechnicianController)
-	authRoutes.DELETE("/technician/:id", controller.DeleteTechnicianController)
-	authRoutes.PUT("/technician/:id", controller.UpdateTechnicianController)
+	authRoutes.GET(technicianPatch+"/:id", controller.GetTechnicianController)
+	authRoutes.POST(technicianPatch, controller.CreateTechnicianController)
+	authRoutes.DELETE(technicianPatch+"/:id", controller.DeleteTechnicianController)
+	authRoutes.PUT(technicianPatch+"/:id", controller.UpdateTechnicianController)
 	authRoutes.GET("/technicians", controller.GetTechniciansController)
 
-	authRoutes.GET("/part/:id", controller.GetPartController)
-	authRoutes.POST("/part", controller.CreatePartController)
-	authRoutes.DELETE("/part/:id", controller.DeletePartController)
-	authRoutes.PUT("/part/:id", controller.UpdatePartController)
+	authRoutes.GET(partPatch+"/:id", controller.GetPartController)
+	authRoutes.POST(partPatch, controller.CreatePartController)
+	authRoutes.DELETE(partPatch+"/:id", controller.DeletePartController)
+	authRoutes.PUT(partPatch+"/:id", controller.UpdatePartController)
 	authRoutes.GET("/parts", controller.GetPartsController)
 
-	authRoutes.GET("/order/:id", controller.GetOrderController)
-	authRoutes.POST("/order", controller.CreateOrderController)
+	authRoutes.GET(orderPatch+"/:id", controller.GetOrderController)
+	authRoutes.POST(orderPatch, controller.CreateOrderController)
+	authRoutes.DELETE(orderPatch+"/:id", controller.DeleteOrderController)
+	authRoutes.PUT(orderPatch+"/:id", controller.UpdateOrderController)
 	authRoutes.GET("/orders", controller.GetOrdersController)
-	authRoutes.DELETE("/order/:id", controller.DeleteOrderController)
-	authRoutes.PUT("/order/:id", controller.UpdateOrderController)
 
-	authRoutes.GET("/service/:id", controller.GetServiceController)
-	authRoutes.POST("/service", controller.CreateServiceController)
+	authRoutes.GET(servicePatch+"/:id", controller.GetServiceController)
+	authRoutes.POST(servicePatch, controller.CreateServiceController)
+	authRoutes.PUT(servicePatch+"/:id", controller.UpdateServiceController)
+	authRoutes.DELETE(servicePatch+"/:id", controller.DeleteServiceController)
 	authRoutes.GET("/services", controller.GetServicesController)
-	authRoutes.PUT("/service/:id", controller.UpdateServiceController)
-	authRoutes.DELETE("/service/:id", controller.DeleteServiceController)
 }
