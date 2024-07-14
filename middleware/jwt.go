@@ -11,6 +11,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+var invalidTokenErrorMessage = "invalid token"
+
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -29,7 +31,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		token, err := jwt.Parse(tokenString, validateToken)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": invalidTokenErrorMessage})
 			c.Abort()
 			return
 		}
@@ -43,7 +45,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 			c.Set("userID", claims["sub"])
 		} else {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": invalidTokenErrorMessage})
 			c.Abort()
 			return
 		}
@@ -62,7 +64,7 @@ func validateToken(token *jwt.Token) (interface{}, error) {
 func validateExpiration(claims jwt.MapClaims) error {
 	expiration, ok := claims["exp"].(float64)
 	if !ok {
-		return fmt.Errorf("invalid token")
+		return fmt.Errorf(invalidTokenErrorMessage)
 	}
 
 	if int64(expiration) < time.Now().Unix() {
