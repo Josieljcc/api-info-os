@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Josieljcc/api-info-os/controller"
+	"github.com/Josieljcc/api-info-os/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,33 +18,36 @@ func initializeRoutes(router *gin.Engine) {
 
 	v1.POST("/login", controller.LoginController)
 
-	v1.GET("/client/:id", controller.GetClientController)
-	v1.POST("/client", controller.CreateClientController)
-	v1.DELETE("/client/:id", controller.DeleteClientController)
-	v1.PUT("/client/:id", controller.UpdateClientController)
-	v1.GET("/clients", controller.GetClientsController)
+	authRoutes := v1.Group("/")
+	authRoutes.Use(middleware.AuthMiddleware())
 
-	v1.GET("/technician/:id", controller.GetTechnicianController)
-	v1.POST("/technician", controller.CreateTechnicianController)
-	v1.DELETE("/technician/:id", controller.DeleteTechnicianController)
-	v1.PUT("/technician/:id", controller.UpdateTechnicianController)
-	v1.GET("/technicians", controller.GetTechniciansController)
+	authRoutes.GET("/client/:id", controller.GetClientController)
+	authRoutes.POST("/client", controller.CreateClientController)
+	authRoutes.DELETE("/client/:id", controller.DeleteClientController)
+	authRoutes.PUT("/client/:id", controller.UpdateClientController)
+	authRoutes.GET("/clients", controller.GetClientsController)
 
-	v1.GET("/part/:id", controller.GetPartController)
-	v1.POST("/part", controller.CreatePartController)
-	v1.DELETE("/part/:id", controller.DeletePartController)
-	v1.PUT("/part/:id", controller.UpdatePartController)
-	v1.GET("/parts", controller.GetPartsController)
+	authRoutes.GET("/technician/:id", controller.GetTechnicianController)
+	authRoutes.POST("/technician", controller.CreateTechnicianController)
+	authRoutes.DELETE("/technician/:id", controller.DeleteTechnicianController)
+	authRoutes.PUT("/technician/:id", controller.UpdateTechnicianController)
+	authRoutes.GET("/technicians", controller.GetTechniciansController)
 
-	v1.GET("/order/:id", controller.GetOrderController)
-	v1.POST("/order", controller.CreateOrderController)
-	v1.GET("/orders", controller.GetOrdersController)
-	v1.DELETE("/order/:id", controller.DeleteOrderController)
-	v1.PUT("/order/:id", controller.UpdateOrderController)
+	authRoutes.GET("/part/:id", controller.GetPartController)
+	authRoutes.POST("/part", controller.CreatePartController)
+	authRoutes.DELETE("/part/:id", controller.DeletePartController)
+	authRoutes.PUT("/part/:id", controller.UpdatePartController)
+	authRoutes.GET("/parts", controller.GetPartsController)
 
-	v1.GET("/service/:id", controller.GetServiceController)
-	v1.POST("/service", controller.CreateServiceController)
-	v1.GET("/services", controller.GetServicesController)
-	v1.PUT("/service/:id", controller.UpdateServiceController)
-	v1.DELETE("/service/:id", controller.DeleteServiceController)
+	authRoutes.GET("/order/:id", controller.GetOrderController)
+	authRoutes.POST("/order", controller.CreateOrderController)
+	authRoutes.GET("/orders", controller.GetOrdersController)
+	authRoutes.DELETE("/order/:id", controller.DeleteOrderController)
+	authRoutes.PUT("/order/:id", controller.UpdateOrderController)
+
+	authRoutes.GET("/service/:id", controller.GetServiceController)
+	authRoutes.POST("/service", controller.CreateServiceController)
+	authRoutes.GET("/services", controller.GetServicesController)
+	authRoutes.PUT("/service/:id", controller.UpdateServiceController)
+	authRoutes.DELETE("/service/:id", controller.DeleteServiceController)
 }
