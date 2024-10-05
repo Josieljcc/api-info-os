@@ -27,7 +27,7 @@ var (
 // @BasePath /api/v1
 func main() {
 	docs.SwaggerInfo.Title = "API de Controle de Ordens de Serviço"
-	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
+	docs.SwaggerInfo.Description = "Esta é a API para controle de ordens de serviço em uma assistência de manutenção de computadores."
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
