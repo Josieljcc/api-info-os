@@ -32,12 +32,12 @@ func main() {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
+	logger = config.GetLogger("main")
 	err := godotenv.Load()
 	if err != nil {
 		logger.Errorf("godotenv.Load() error: %v", err)
 		return
 	}
-	logger = config.GetLogger("main")
 	err = config.Init()
 	if err != nil {
 		logger.Errorf("config.Init() error: %v", err)
