@@ -13,6 +13,7 @@ import (
 // @Produce  json
 // @Param   email    query  string  true "Email"
 // @Param   password    query  string  true "Password"
+// @Success 200 {object} schemas.ClientLoginResponse
 // @Router /login [post]
 func LoginController(c *gin.Context) {
 	var creds struct {

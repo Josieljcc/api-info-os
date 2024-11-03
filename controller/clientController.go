@@ -14,9 +14,9 @@ import (
 // @Tags Client
 // @Accept json
 // @Produce json
-// @Param client body schemas.Client true "Client"
+// @Param client body schemas.ClientRegister true "Client"
 // @Success 200 {object} schemas.ClientResponse
-// @Router /clients [post]
+// @Router /register/client [post]
 func CreateClientController(c *gin.Context) {
 	var client schemas.Client
 	if err := c.ShouldBindJSON(&client); err != nil {
@@ -41,7 +41,7 @@ func CreateClientController(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Client ID"
-// @Success 200 {object} schemas.Client
+// @Success 200 {object} schemas.ClientResponse
 // @Router /clients/{id} [get]
 func GetClientController(c *gin.Context) {
 	id := c.Params.ByName("id")
@@ -61,7 +61,7 @@ func GetClientController(c *gin.Context) {
 // @Tags Client
 // @Accept json
 // @Produce json
-// @Success 200 {object} []schemas.Client
+// @Success 200 {object} []schemas.ClientResponse
 // @Router /clients [get]
 func GetClientsController(c *gin.Context) {
 	clientsResponse, err := service.GetClients()
@@ -81,7 +81,7 @@ func GetClientsController(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Client ID"
-// @Param client body schemas.Client true "Client"
+// @Param client body schemas.ClientRegister true "Client"
 // @Success 200 {object} schemas.ClientResponse
 // @Router /clients/{id} [put]
 func UpdateClientController(c *gin.Context) {

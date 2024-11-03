@@ -43,40 +43,8 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.Client"
+                                "$ref": "#/definitions/schemas.ClientResponse"
                             }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new client",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Client"
-                ],
-                "summary": "Create a new client",
-                "parameters": [
-                    {
-                        "description": "Client",
-                        "name": "client",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Client"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.ClientResponse"
                         }
                     }
                 }
@@ -108,7 +76,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.Client"
+                            "$ref": "#/definitions/schemas.ClientResponse"
                         }
                     }
                 }
@@ -139,7 +107,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.Client"
+                            "$ref": "#/definitions/schemas.ClientRegister"
                         }
                     }
                 ],
@@ -212,7 +180,14 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ClientLoginResponse"
+                        }
+                    }
+                }
             }
         },
         "/orders": {
@@ -457,6 +432,67 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/register/client": {
+            "post": {
+                "description": "Create a new client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Create a new client",
+                "parameters": [
+                    {
+                        "description": "Client",
+                        "name": "client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ClientRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ClientResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/technician": {
+            "post": {
+                "description": "Create Technician",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Technician"
+                ],
+                "summary": "Create Technician",
+                "parameters": [
+                    {
+                        "description": "Technician",
+                        "name": "technician",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.Technician"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/services": {
             "get": {
                 "description": "Get Services",
@@ -592,31 +628,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get Technicians",
                 "responses": {}
-            },
-            "post": {
-                "description": "Create Technician",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Technician"
-                ],
-                "summary": "Create Technician",
-                "parameters": [
-                    {
-                        "description": "Technician",
-                        "name": "technician",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Technician"
-                        }
-                    }
-                ],
-                "responses": {}
             }
         },
         "/technicians/{id}": {
@@ -701,53 +712,32 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "gorm.DeletedAt": {
+        "schemas.ClientLoginResponse": {
             "type": "object",
             "properties": {
-                "time": {
+                "token": {
                     "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         },
-        "schemas.Client": {
+        "schemas.ClientRegister": {
             "type": "object",
             "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
                 "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
+                    "type": "string",
+                    "example": "josiel.jcc@hotmail.com"
                 },
                 "name": {
-                    "type": "string"
-                },
-                "orders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.Order"
-                    }
+                    "type": "string",
+                    "example": "Josiel"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "123456"
                 },
                 "phone": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "(11) 99999-9999"
                 }
             }
         },
@@ -772,150 +762,16 @@ const docTemplate = `{
             }
         },
         "schemas.Order": {
-            "type": "object",
-            "properties": {
-                "clientID": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "parts": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.Part"
-                    }
-                },
-                "services": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.Service"
-                    }
-                },
-                "status": {
-                    "type": "string"
-                },
-                "technicianID": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
+            "type": "object"
         },
         "schemas.Part": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "orders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.Order"
-                    }
-                },
-                "price": {
-                    "type": "number"
-                },
-                "quantity": {
-                    "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
+            "type": "object"
         },
         "schemas.Service": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "orders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.Order"
-                    }
-                },
-                "price": {
-                    "type": "number"
-                },
-                "time": {
-                    "type": "integer"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
+            "type": "object"
         },
         "schemas.Technician": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "orders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.Order"
-                    }
-                },
-                "password": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
+            "type": "object"
         }
     }
 }`

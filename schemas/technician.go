@@ -7,7 +7,7 @@ import (
 type Technician struct {
 	gorm.Model
 	Name     string  `gorm:"size:100;not null"`
-	Password string  `gorm:"size:100;not null"`
+	Password string  `gorm:"size:100;not null; min: 6"`
 	Email    string  `gorm:"size:100;not null;uniqueIndex"`
 	Phone    string  `gorm:"size:15"`
 	Orders   []Order `gorm:"foreignkey:TechnicianID"`
