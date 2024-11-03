@@ -33,8 +33,8 @@ func GetTechnicianController(c *gin.Context) {
 // @Tags Technician
 // @Accept  json
 // @Produce  json
-// @Param   technician    body  schemas.Technician  true "Technician"
-// @Router /technicians [post]
+// @Param   technician    body  schemas.Technician  true "Technician" example={"name":"Josiel","email":"josiel.jcc@hotmail.com","phone":"(11) 99999-9999","password":"123456"}
+// @Router /register/technician [post]
 func CreateTechnicianController(c *gin.Context) {
 	var technician schemas.Technician
 	if err := c.ShouldBindJSON(&technician); err != nil {
