@@ -5,6 +5,7 @@ import (
 
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/service"
+	"github.com/Josieljcc/api-info-os/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,11 @@ import (
 // @Produce  json
 // @Router /services [get]
 func GetServicesController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	servicesResponse, err := service.GetServices()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -33,6 +39,11 @@ func GetServicesController(c *gin.Context) {
 // @Param   service    body  schemas.Service  true "Service"
 // @Router /services [post]
 func CreateServiceController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	var serviceBody schemas.Service
 	if err := c.ShouldBindJSON(&serviceBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -58,6 +69,11 @@ func CreateServiceController(c *gin.Context) {
 // @Param   id    path  string  true "ID"
 // @Router /services/{id} [get]
 func GetServiceController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	service, err := service.GetService(id)
 	if err != nil {
@@ -78,6 +94,11 @@ func GetServiceController(c *gin.Context) {
 // @Param   service    body  schemas.Service  true "Service"
 // @Router /services/{id} [put]
 func UpdateServiceController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	var serviceUpdated schemas.Service
 	if err := c.ShouldBindJSON(&serviceUpdated); err != nil {
@@ -104,6 +125,11 @@ func UpdateServiceController(c *gin.Context) {
 // @Param   id    path  string  true "ID"
 // @Router /services/{id} [delete]
 func DeleteServiceController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	err := service.DeleteService(id)
 	if err != nil {

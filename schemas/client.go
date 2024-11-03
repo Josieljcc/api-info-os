@@ -31,6 +31,12 @@ type ClientRegister struct {
 
 type ClientLoginResponse struct {
 	Token string `json:"token"`
+	Role  string `json:"role"`
+}
+
+type ClientLogin struct {
+	Email    string `json:"email" example:"josiel.jcc@hotmail.com"`
+	Password string `json:"password" example:"123456"`
 }
 
 func (c Client) ToResponse() ClientResponse {

@@ -22,7 +22,6 @@ func initializeRoutes(router *gin.Engine) {
 
 	v1.POST("/login", controller.LoginController)
 	v1.POST("/register/technician", controller.CreateTechnicianController)
-	v1.POST("/register/client", controller.CreateClientController)
 
 	var clientPatch = "/client"
 	var technicianPatch = "/technician"
@@ -36,28 +35,29 @@ func initializeRoutes(router *gin.Engine) {
 	authRoutes.GET(clientPatch+"/:id", controller.GetClientController)
 	authRoutes.DELETE(clientPatch+"/:id", controller.DeleteClientController)
 	authRoutes.PUT(clientPatch+"/:id", controller.UpdateClientController)
-	authRoutes.GET("/clients", controller.GetClientsController)
+	authRoutes.GET(clientPatch, controller.GetClientsController)
+	authRoutes.POST(clientPatch, controller.CreateClientController)
 
 	authRoutes.GET(technicianPatch+"/:id", controller.GetTechnicianController)
 	authRoutes.DELETE(technicianPatch+"/:id", controller.DeleteTechnicianController)
 	authRoutes.PUT(technicianPatch+"/:id", controller.UpdateTechnicianController)
-	authRoutes.GET("/technicians", controller.GetTechniciansController)
+	authRoutes.GET(technicianPatch, controller.GetTechniciansController)
 
 	authRoutes.GET(partPatch+"/:id", controller.GetPartController)
 	authRoutes.POST(partPatch, controller.CreatePartController)
 	authRoutes.DELETE(partPatch+"/:id", controller.DeletePartController)
 	authRoutes.PUT(partPatch+"/:id", controller.UpdatePartController)
-	authRoutes.GET("/parts", controller.GetPartsController)
+	authRoutes.GET(partPatch, controller.GetPartsController)
 
 	authRoutes.GET(orderPatch+"/:id", controller.GetOrderController)
 	authRoutes.POST(orderPatch, controller.CreateOrderController)
 	authRoutes.DELETE(orderPatch+"/:id", controller.DeleteOrderController)
 	authRoutes.PUT(orderPatch+"/:id", controller.UpdateOrderController)
-	authRoutes.GET("/orders", controller.GetOrdersController)
+	authRoutes.GET(orderPatch, controller.GetOrdersController)
 
 	authRoutes.GET(servicePatch+"/:id", controller.GetServiceController)
 	authRoutes.POST(servicePatch, controller.CreateServiceController)
 	authRoutes.PUT(servicePatch+"/:id", controller.UpdateServiceController)
 	authRoutes.DELETE(servicePatch+"/:id", controller.DeleteServiceController)
-	authRoutes.GET("/services", controller.GetServicesController)
+	authRoutes.GET(servicePatch, controller.GetServicesController)
 }

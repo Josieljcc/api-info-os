@@ -5,6 +5,7 @@ import (
 
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/service"
+	"github.com/Josieljcc/api-info-os/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,10 +15,18 @@ import (
 // @Tags Client
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Param client body schemas.ClientRegister true "Client"
 // @Success 200 {object} schemas.ClientResponse
 // @Router /register/client [post]
+
 func CreateClientController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+
+	if !isAuthorized {
+		return
+	}
+
 	var client schemas.Client
 	if err := c.ShouldBindJSON(&client); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -40,10 +49,17 @@ func CreateClientController(c *gin.Context) {
 // @Tags Client
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Param id path string true "Client ID"
 // @Success 200 {object} schemas.ClientResponse
 // @Router /clients/{id} [get]
 func GetClientController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Params.ByName("id")
 	client, err := service.GetClient(id)
 	if err != nil {
@@ -61,9 +77,16 @@ func GetClientController(c *gin.Context) {
 // @Tags Client
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Success 200 {object} []schemas.ClientResponse
 // @Router /clients [get]
 func GetClientsController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+
+	if !isAuthorized {
+		return
+	}
+
 	clientsResponse, err := service.GetClients()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -82,9 +105,16 @@ func GetClientsController(c *gin.Context) {
 // @Produce json
 // @Param id path string true "Client ID"
 // @Param client body schemas.ClientRegister true "Client"
+// @Param authorization header string true "Bearer Authorization"
 // @Success 200 {object} schemas.ClientResponse
 // @Router /clients/{id} [put]
 func UpdateClientController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+
+	if !isAuthorized {
+		return
+	}
+
 	var client schemas.Client
 	id := c.Param("id")
 	if err := c.ShouldBindJSON(&client); err != nil {
@@ -112,9 +142,16 @@ func UpdateClientController(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Client ID"
+// @Param authorization header string true "Bearer Authorization"
 // @Success 200 {object} schemas.ClientResponse
 // @Router /clients/{id} [delete]
 func DeleteClientController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Params.ByName("id")
 	if err := service.DeleteClient(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

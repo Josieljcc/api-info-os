@@ -5,6 +5,7 @@ import (
 
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/service"
+	"github.com/Josieljcc/api-info-os/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,11 @@ import (
 // @Produce  json
 // @Router /parts [get]
 func GetPartsController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	partsResponse, err := service.GetParts()
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -33,6 +39,11 @@ func GetPartsController(c *gin.Context) {
 // @Param   id    path  string  true "ID"
 // @Router /parts/{id} [get]
 func GetPartController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Params.ByName("id")
 	partResponse, err := service.GetPart(id)
 	if err != nil {
@@ -52,6 +63,11 @@ func GetPartController(c *gin.Context) {
 // @Param   part    body  schemas.Part  true "Part"
 // @Router /parts [post]
 func CreatePartController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	var part schemas.Part
 	if err := c.ShouldBindJSON(&part); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -77,6 +93,11 @@ func CreatePartController(c *gin.Context) {
 // @Param   part    body  schemas.Part  true "Part"
 // @Router /parts/{id} [put]
 func UpdatePartController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	var part schemas.Part
 	if err := c.ShouldBindJSON(&part); err != nil {
@@ -102,6 +123,11 @@ func UpdatePartController(c *gin.Context) {
 // @Param   id    path  string  true "ID"
 // @Router /parts/{id} [delete]
 func DeletePartController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Params.ByName("id")
 	if err := service.DeletePart(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

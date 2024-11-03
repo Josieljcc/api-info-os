@@ -11,8 +11,7 @@ import (
 // @Tags Login
 // @Accept  json
 // @Produce  json
-// @Param   email    query  string  true "Email"
-// @Param   password    query  string  true "Password"
+// @Param body body schemas.ClientLogin true "Client Login"
 // @Success 200 {object} schemas.ClientLoginResponse
 // @Router /login [post]
 func LoginController(c *gin.Context) {
@@ -63,7 +62,7 @@ func LoginController(c *gin.Context) {
 		role = "client"
 	}
 
-	token, err := utils.GenerateToken(idToCreateToken)
+	token, err := utils.GenerateToken(idToCreateToken, role)
 
 	if err != nil {
 		c.JSON(400, gin.H{

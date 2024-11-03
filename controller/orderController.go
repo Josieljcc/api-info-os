@@ -5,6 +5,7 @@ import (
 
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/service"
+	"github.com/Josieljcc/api-info-os/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,8 +15,14 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
+// @Param authorization header string true "Bearer Authorization"
 // @Router /orders/{id} [get]
 func GetOrderController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	order, err := service.GetOrder(id)
 	if err != nil {
@@ -34,6 +41,11 @@ func GetOrderController(c *gin.Context) {
 // @Produce  json
 // @Router /orders [get]
 func GetOrdersController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	ordersResponse, err := service.GetOrders()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -52,6 +64,11 @@ func GetOrdersController(c *gin.Context) {
 // @Param   order    body  schemas.Order  true "Order"
 // @Router /orders [post]
 func CreateOrderController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	var order schemas.Order
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -78,6 +95,11 @@ func CreateOrderController(c *gin.Context) {
 // @Param   order    body  schemas.Order  true "Order"
 // @Router /orders/{id} [put]
 func UpdateOrderController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	var order schemas.Order
 	if err := c.ShouldBindJSON(&order); err != nil {
@@ -104,6 +126,11 @@ func UpdateOrderController(c *gin.Context) {
 // @Param   id    path  string  true "ID"
 // @Router /orders/{id} [delete]
 func DeleteOrderController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	id := c.Param("id")
 	err := service.DeleteOrder(id)
 	if err != nil {
