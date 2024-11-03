@@ -22,6 +22,17 @@ type ClientResponse struct {
 	Phone   string `json:"phone"`
 }
 
+type ClientRegister struct {
+	Name     string `json:"name" example:"Josiel"`
+	Email    string `json:"email" example:"josiel.jcc@hotmail.com"`
+	Phone    string `json:"phone" example:"(11) 99999-9999"`
+	Password string `json:"password" example:"123456"`
+}
+
+type ClientLoginResponse struct {
+	Token string `json:"token"`
+}
+
 func (c Client) ToResponse() ClientResponse {
 	return ClientResponse{
 		ID:      c.ID,
