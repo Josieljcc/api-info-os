@@ -1,7 +1,17 @@
-version: '3'
 services:
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    environment:
+      - JWT_SECRET=jwtTokenSecret
+      - URL_DATABASE=admin:infoOskey@tcp(db:3306)/infoos?charset=utf8mb4&parseTime=True&loc=Local
+    restart: always
   db:
     image: mysql:latest
+    container_name: db
     environment:
       - MYSQL_ROOT_PASSWORD=infoOskey
       - MYSQL_DATABASE=infoos
@@ -9,22 +19,6 @@ services:
       - MYSQL_PASSWORD=infoOskey
     ports:
       - 3306:3306
-    volumes:
-      - db_data:/var/lib/mysql
+    
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-    ports:
-      - 8080:8080
-    environment:
-      - DATABASE_URL=mysql://admin:infoOskey@db:3306/infoos
-    volumes:
-      - ./:/app
-volumes:
-  db_data:
 
-  
