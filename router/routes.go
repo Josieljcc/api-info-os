@@ -21,6 +21,8 @@ func initializeRoutes(router *gin.Engine) {
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	v1.POST("/login", controller.LoginController)
+	v1.POST("/register/technician", controller.CreateTechnicianController)
+	v1.POST("/register/client", controller.CreateClientController)
 
 	var clientPatch = "/client"
 	var technicianPatch = "/technician"
@@ -32,13 +34,11 @@ func initializeRoutes(router *gin.Engine) {
 	authRoutes.Use(middleware.AuthMiddleware())
 
 	authRoutes.GET(clientPatch+"/:id", controller.GetClientController)
-	authRoutes.POST(clientPatch, controller.CreateClientController)
 	authRoutes.DELETE(clientPatch+"/:id", controller.DeleteClientController)
 	authRoutes.PUT(clientPatch+"/:id", controller.UpdateClientController)
 	authRoutes.GET("/clients", controller.GetClientsController)
 
 	authRoutes.GET(technicianPatch+"/:id", controller.GetTechnicianController)
-	authRoutes.POST(technicianPatch, controller.CreateTechnicianController)
 	authRoutes.DELETE(technicianPatch+"/:id", controller.DeleteTechnicianController)
 	authRoutes.PUT(technicianPatch+"/:id", controller.UpdateTechnicianController)
 	authRoutes.GET("/technicians", controller.GetTechniciansController)
