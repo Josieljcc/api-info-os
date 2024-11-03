@@ -50,13 +50,17 @@ func LoginController(c *gin.Context) {
 		})
 		return
 	}
+
 	var idToCreateToken uint
+	var role string
 	if tecerr == nil {
 		idToCreateToken = tecnitian.ID
+		role = "technician"
 	}
 
 	if clienterr == nil {
 		idToCreateToken = client.ID
+		role = "client"
 	}
 
 	token, err := utils.GenerateToken(idToCreateToken)
@@ -70,6 +74,7 @@ func LoginController(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"token": token,
+		"role":  role,
 	})
 
 }
