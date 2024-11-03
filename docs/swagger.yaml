@@ -1,7 +1,18 @@
 basePath: /api/v1
 definitions:
+  schemas.ClientLogin:
+    properties:
+      email:
+        example: josiel.jcc@hotmail.com
+        type: string
+      password:
+        example: "123456"
+        type: string
+    type: object
   schemas.ClientLoginResponse:
     properties:
+      role:
+        type: string
       token:
         type: string
     type: object
@@ -61,6 +72,12 @@ paths:
       consumes:
       - application/json
       description: Get all clients
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -84,6 +101,11 @@ paths:
         name: id
         required: true
         type: string
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -99,6 +121,11 @@ paths:
       - application/json
       description: Get a client
       parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       - description: Client ID
         in: path
         name: id
@@ -130,6 +157,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.ClientRegister'
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -146,16 +178,12 @@ paths:
       - application/json
       description: Login
       parameters:
-      - description: Email
-        in: query
-        name: email
+      - description: Client Login
+        in: body
+        name: body
         required: true
-        type: string
-      - description: Password
-        in: query
-        name: password
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/schemas.ClientLogin'
       produces:
       - application/json
       responses:
@@ -219,6 +247,11 @@ paths:
       - description: ID
         in: path
         name: id
+        required: true
+        type: string
+      - description: Bearer Authorization
+        in: header
+        name: authorization
         required: true
         type: string
       produces:
@@ -338,6 +371,11 @@ paths:
       - application/json
       description: Create a new client
       parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       - description: Client
         in: body
         name: client

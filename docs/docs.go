@@ -37,6 +37,15 @@ const docTemplate = `{
                     "Client"
                 ],
                 "summary": "Get all clients",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -64,6 +73,13 @@ const docTemplate = `{
                 ],
                 "summary": "Get a client",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Client ID",
@@ -109,6 +125,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.ClientRegister"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -139,6 +162,13 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -166,18 +196,13 @@ const docTemplate = `{
                 "summary": "Login",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Email",
-                        "name": "email",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Password",
-                        "name": "password",
-                        "in": "query",
-                        "required": true
+                        "description": "Client Login",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ClientLogin"
+                        }
                     }
                 ],
                 "responses": {
@@ -250,6 +275,13 @@ const docTemplate = `{
                         "description": "ID",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -446,6 +478,13 @@ const docTemplate = `{
                 ],
                 "summary": "Create a new client",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Client",
                         "name": "client",
@@ -712,9 +751,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.ClientLogin": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "josiel.jcc@hotmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                }
+            }
+        },
         "schemas.ClientLoginResponse": {
             "type": "object",
             "properties": {
+                "role": {
+                    "type": "string"
+                },
                 "token": {
                     "type": "string"
                 }
