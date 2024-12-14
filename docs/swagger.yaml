@@ -11,6 +11,10 @@ definitions:
     type: object
   schemas.ClientLoginResponse:
     properties:
+      email:
+        type: string
+      name:
+        type: string
       role:
         type: string
       token:
@@ -365,33 +369,6 @@ paths:
       summary: Update Part
       tags:
       - Part
-  /register/client:
-    post:
-      consumes:
-      - application/json
-      description: Create a new client
-      parameters:
-      - description: Bearer Authorization
-        in: header
-        name: authorization
-        required: true
-        type: string
-      - description: Client
-        in: body
-        name: client
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.ClientRegister'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.ClientResponse'
-      summary: Create a new client
-      tags:
-      - Client
   /register/technician:
     post:
       consumes:

@@ -32,6 +32,8 @@ type ClientRegister struct {
 type ClientLoginResponse struct {
 	Token string `json:"token"`
 	Role  string `json:"role"`
+	Email string `json:"email"`
+	Name  string `json:"name"`
 }
 
 type ClientLogin struct {

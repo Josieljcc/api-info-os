@@ -464,47 +464,6 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/register/client": {
-            "post": {
-                "description": "Create a new client",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Client"
-                ],
-                "summary": "Create a new client",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer Authorization",
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Client",
-                        "name": "client",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.ClientRegister"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.ClientResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/register/technician": {
             "post": {
                 "description": "Create Technician",
@@ -767,6 +726,12 @@ const docTemplate = `{
         "schemas.ClientLoginResponse": {
             "type": "object",
             "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
                 "role": {
                     "type": "string"
                 },
