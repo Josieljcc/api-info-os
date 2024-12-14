@@ -23,7 +23,7 @@
 go.work
 go.work.sum
 
-/temp/*
+/tmp
 /actions-runner
 
 *.log
