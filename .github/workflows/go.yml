@@ -16,7 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: fetch repository
+    - name: trust repo
+      run: git config --global --add safe.directory /home/api-info-os/actions-runner/_work/api-info-os/api-info-os
+
+    - name: pull
       run: git pull
 
     - name: docker
