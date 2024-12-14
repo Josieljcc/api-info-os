@@ -74,7 +74,7 @@ func LoginController(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"token": token,
 		"role":  role,
-		"email": creds.Email
+		"email": creds.Email,
 	})
 
 }
