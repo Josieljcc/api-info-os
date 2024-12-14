@@ -6,16 +6,16 @@ services:
     ports:
       - 8080:8080
     environment:
-      - JWT_SECRET=jwtTokenSecret
-      - URL_DATABASE=admin:infoOskey@tcp(db:3306)/infoos?charset=utf8mb4&parseTime=True&loc=Local
+      - JWT_SECRET=${JWT_SECRET}
+      - URL_DATABASE=${URL_DATABASE}
     restart: always
   db:
     image: mysql:latest
     container_name: db
     environment:
-      - MYSQL_ROOT_PASSWORD=infoOskey
-      - MYSQL_DATABASE=infoos
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=infoOskey
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - 3306:3306
