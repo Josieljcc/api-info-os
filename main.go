@@ -7,10 +7,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var (
-	logger *config.Logger
-)
-
 // @title API de Controle de Ordens de Serviço
 // @version 1.0
 // @description Esta é a API para controle de ordens de serviço em uma assistência de manutenção de computadores.
@@ -32,15 +28,14 @@ func main() {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
-	logger = config.GetLogger("main")
 	err := godotenv.Load()
 	if err != nil {
-		logger.Errorf("godotenv.Load() error: %v", err)
+		println("Error loading .env file")
 		return
 	}
 	err = config.Init()
 	if err != nil {
-		logger.Errorf("config.Init() error: %v", err)
+		println("Error loading config file")
 		return
 	}
 
