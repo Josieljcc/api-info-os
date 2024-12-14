@@ -19,6 +19,3 @@ services:
       - MYSQL_PASSWORD=infoOskey
     ports:
       - 3306:3306
-    
-
-

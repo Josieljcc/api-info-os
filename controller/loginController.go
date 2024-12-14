@@ -51,14 +51,17 @@ func LoginController(c *gin.Context) {
 	}
 
 	var idToCreateToken uint
+	var name string
 	var role string
 	if tecerr == nil {
 		idToCreateToken = tecnitian.ID
+		name = tecnitian.Name
 		role = "technician"
 	}
 
 	if clienterr == nil {
 		idToCreateToken = client.ID
+		name = client.Name
 		role = "client"
 	}
 
@@ -75,6 +78,7 @@ func LoginController(c *gin.Context) {
 		"token": token,
 		"role":  role,
 		"email": creds.Email,
+		"name":  name,
 	})
 
 }
