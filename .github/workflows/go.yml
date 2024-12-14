@@ -16,5 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: fetch repository
+      run: git pull
+
     - name: docker
       run: docker compose up -d --build
