@@ -14,7 +14,7 @@ import (
 // @Tags Part
 // @Accept  json
 // @Produce  json
-// @Router /parts [get]
+// @Router /part [get]
 func GetPartsController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
@@ -37,7 +37,7 @@ func GetPartsController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
-// @Router /parts/{id} [get]
+// @Router /part/{id} [get]
 func GetPartController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
@@ -62,7 +62,7 @@ func GetPartController(c *gin.Context) {
 // @Param   part    body  schemas.PartCreate  true "Part"
 // @Param authorization header string true "Bearer Authorization"
 // @Produce  json
-// @Router /parts [post]
+// @Router /part [post]
 func CreatePartController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
@@ -91,7 +91,7 @@ func CreatePartController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
-// @Router /parts/{id} [put]
+// @Router /part/{id} [put]
 func UpdatePartController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
@@ -121,7 +121,7 @@ func UpdatePartController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
-// @Router /parts/{id} [delete]
+// @Router /part/{id} [delete]
 func DeletePartController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
