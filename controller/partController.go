@@ -59,8 +59,8 @@ func GetPartController(c *gin.Context) {
 // @Description Create Part
 // @Tags Part
 // @Accept  json
+// @Param   part    body  schemas.PartCreate  true "Part"
 // @Produce  json
-// @Param   part    body  schemas.Part  true "Part"
 // @Router /parts [post]
 func CreatePartController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
@@ -90,7 +90,6 @@ func CreatePartController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
-// @Param   part    body  schemas.Part  true "Part"
 // @Router /parts/{id} [put]
 func UpdatePartController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)

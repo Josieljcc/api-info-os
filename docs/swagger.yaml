@@ -48,13 +48,16 @@ definitions:
       phone:
         type: string
     type: object
-  schemas.Order:
-    type: object
-  schemas.Part:
-    type: object
-  schemas.Service:
-    type: object
-  schemas.Technician:
+  schemas.PartCreate:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: integer
     type: object
 host: localhost:8080
 info:
@@ -213,13 +216,6 @@ paths:
       consumes:
       - application/json
       description: Create Order
-      parameters:
-      - description: Order
-        in: body
-        name: order
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Order'
       produces:
       - application/json
       responses: {}
@@ -274,12 +270,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Order
-        in: body
-        name: order
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Order'
       produces:
       - application/json
       responses: {}
@@ -307,7 +297,7 @@ paths:
         name: part
         required: true
         schema:
-          $ref: '#/definitions/schemas.Part'
+          $ref: '#/definitions/schemas.PartCreate'
       produces:
       - application/json
       responses: {}
@@ -357,12 +347,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Part
-        in: body
-        name: part
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Part'
       produces:
       - application/json
       responses: {}
@@ -374,13 +358,6 @@ paths:
       consumes:
       - application/json
       description: Create Technician
-      parameters:
-      - description: Technician
-        in: body
-        name: technician
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Technician'
       produces:
       - application/json
       responses: {}
@@ -402,13 +379,6 @@ paths:
       consumes:
       - application/json
       description: Create Service
-      parameters:
-      - description: Service
-        in: body
-        name: service
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Service'
       produces:
       - application/json
       responses: {}
@@ -458,12 +428,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Service
-        in: body
-        name: service
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Service'
       produces:
       - application/json
       responses: {}
@@ -524,12 +488,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Technician
-        in: body
-        name: technician
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.Technician'
       produces:
       - application/json
       responses: {}

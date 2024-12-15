@@ -61,7 +61,6 @@ func GetOrdersController(c *gin.Context) {
 // @Tags Order
 // @Accept  json
 // @Produce  json
-// @Param   order    body  schemas.Order  true "Order"
 // @Router /orders [post]
 func CreateOrderController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
@@ -92,7 +91,6 @@ func CreateOrderController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
-// @Param   order    body  schemas.Order  true "Order"
 // @Router /orders/{id} [put]
 func UpdateOrderController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)

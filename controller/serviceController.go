@@ -36,7 +36,6 @@ func GetServicesController(c *gin.Context) {
 // @Tags Service
 // @Accept  json
 // @Produce  json
-// @Param   service    body  schemas.Service  true "Service"
 // @Router /services [post]
 func CreateServiceController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
@@ -91,7 +90,6 @@ func GetServiceController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param   id    path  string  true "ID"
-// @Param   service    body  schemas.Service  true "Service"
 // @Router /services/{id} [put]
 func UpdateServiceController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)

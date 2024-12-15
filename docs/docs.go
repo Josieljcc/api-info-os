@@ -242,17 +242,6 @@ const docTemplate = `{
                     "Order"
                 ],
                 "summary": "Create Order",
-                "parameters": [
-                    {
-                        "description": "Order",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Order"
-                        }
-                    }
-                ],
                 "responses": {}
             }
         },
@@ -306,15 +295,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Order",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Order"
-                        }
                     }
                 ],
                 "responses": {}
@@ -377,7 +357,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.Part"
+                            "$ref": "#/definitions/schemas.PartCreate"
                         }
                     }
                 ],
@@ -427,15 +407,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Part",
-                        "name": "part",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Part"
-                        }
                     }
                 ],
                 "responses": {}
@@ -477,17 +448,6 @@ const docTemplate = `{
                     "Technician"
                 ],
                 "summary": "Create Technician",
-                "parameters": [
-                    {
-                        "description": "Technician",
-                        "name": "technician",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Technician"
-                        }
-                    }
-                ],
                 "responses": {}
             }
         },
@@ -518,17 +478,6 @@ const docTemplate = `{
                     "Service"
                 ],
                 "summary": "Create Service",
-                "parameters": [
-                    {
-                        "description": "Service",
-                        "name": "service",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Service"
-                        }
-                    }
-                ],
                 "responses": {}
             }
         },
@@ -575,15 +524,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Service",
-                        "name": "service",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Service"
-                        }
                     }
                 ],
                 "responses": {}
@@ -671,15 +611,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Technician",
-                        "name": "technician",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.Technician"
-                        }
                     }
                 ],
                 "responses": {}
@@ -781,17 +712,22 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.Order": {
-            "type": "object"
-        },
-        "schemas.Part": {
-            "type": "object"
-        },
-        "schemas.Service": {
-            "type": "object"
-        },
-        "schemas.Technician": {
-            "type": "object"
+        "schemas.PartCreate": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
         }
     }
 }`
