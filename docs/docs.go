@@ -359,6 +359,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.PartCreate"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {}

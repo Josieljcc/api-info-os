@@ -60,6 +60,7 @@ func GetPartController(c *gin.Context) {
 // @Tags Part
 // @Accept  json
 // @Param   part    body  schemas.PartCreate  true "Part"
+// @Param authorization header string true "Bearer Authorization"
 // @Produce  json
 // @Router /parts [post]
 func CreatePartController(c *gin.Context) {
