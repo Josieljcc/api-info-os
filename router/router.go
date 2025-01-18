@@ -11,7 +11,7 @@ func Initialize() {
 	r := gin.Default()
 
 	config := cors.Config{
-		AllowOrigins:     []string{"https://info-os.shop, http://localhost:3000"},
+		AllowOrigins:     []string{"https://info-os.shop, http://localhost:3000, http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length", "Authorization"},
