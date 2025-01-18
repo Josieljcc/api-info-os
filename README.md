@@ -38,6 +38,9 @@ JWT_SECRET=jwtSecret
 ```
 5. Run database in container: `docker-compose up -d`
 6. Run Api-infoOs: `go run main.go`
+7. If you want to use hot reload install air: `go install github.com/air-verse/air@latest`
+8. Access the Swagger documentation at http://localhost:8080/swagger/index.html
+
 
 ## Usage
 
