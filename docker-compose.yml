@@ -20,3 +20,7 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: always
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token eyJhIjoiOTZiNGY0ODU5NGU5NDgyYmFhZjBjZGY0ODJiZGY4MzMiLCJ0IjoiYmI1M2MyNDgtMWZiNy00OGM3LWE3MmYtMWEwOTY5MWVhZDYwIiwicyI6Ik5tTmhOek5qT0dRdFl6azRZUzAwWldFMExXRmlaRFV0Tm1VMllqZ3lNVEF6WVdNeiJ9
+    restart: always
