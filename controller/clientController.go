@@ -9,17 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateClient godoc
-// @Summary Create a new client
-// @Description Create a new client
+// CreateClientController godoc
+// @Summary Create a client
+// @Description Create a client
 // @Tags Client
 // @Accept json
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
 // @Param client body schemas.ClientRegister true "Client"
 // @Success 200 {object} schemas.ClientResponse
-// @Router /register/client [post]
-
+// @Router /client [post]
 func CreateClientController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 
@@ -43,16 +42,16 @@ func CreateClientController(c *gin.Context) {
 	c.JSON(http.StatusOK, clientResponse)
 }
 
-// GetClient godoc
-// @Summary Get a client
-// @Description Get a client
+// GetClientController godoc
+// @Summary Get a client by id
+// @Description Get a client by id
 // @Tags Client
 // @Accept json
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
 // @Param id path string true "Client ID"
 // @Success 200 {object} schemas.ClientResponse
-// @Router /clients/{id} [get]
+// @Router /client/{id} [get]
 func GetClientController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 
@@ -71,7 +70,7 @@ func GetClientController(c *gin.Context) {
 	c.JSON(http.StatusOK, client)
 }
 
-// GetClients godoc
+// GetClientsController godoc
 // @Summary Get all clients
 // @Description Get all clients
 // @Tags Client
@@ -79,7 +78,7 @@ func GetClientController(c *gin.Context) {
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
 // @Success 200 {object} []schemas.ClientResponse
-// @Router /clients [get]
+// @Router /client [get]
 func GetClientsController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 
@@ -97,17 +96,16 @@ func GetClientsController(c *gin.Context) {
 	c.JSON(http.StatusOK, clientsResponse)
 }
 
-// UpdateClient godoc
+// UpdateClientController godoc
 // @Summary Update a client
 // @Description Update a client
 // @Tags Client
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Param id path string true "Client ID"
 // @Param client body schemas.ClientRegister true "Client"
-// @Param authorization header string true "Bearer Authorization"
 // @Success 200 {object} schemas.ClientResponse
-// @Router /clients/{id} [put]
 func UpdateClientController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 
@@ -135,16 +133,6 @@ func UpdateClientController(c *gin.Context) {
 	})
 }
 
-// DeleteClient godoc
-// @Summary Delete a client
-// @Description Delete a client
-// @Tags Client
-// @Accept json
-// @Produce json
-// @Param id path string true "Client ID"
-// @Param authorization header string true "Bearer Authorization"
-// @Success 200 {object} schemas.ClientResponse
-// @Router /clients/{id} [delete]
 func DeleteClientController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 
