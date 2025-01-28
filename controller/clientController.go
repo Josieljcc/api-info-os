@@ -133,6 +133,16 @@ func UpdateClientController(c *gin.Context) {
 	})
 }
 
+// DeleteClientController godoc
+// @Summary Delete a client
+// @Description Delete a client
+// @Tags Client
+// @Accept json
+// @Produce json
+// @Param authorization header string true "Bearer Authorization"
+// @Param id path string true "Client ID"
+// @Success 200 {object} schemas.ClientResponse
+// @Router /client/{id} [delete]
 func DeleteClientController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 

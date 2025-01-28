@@ -48,6 +48,17 @@ definitions:
       phone:
         type: string
     type: object
+  schemas.EquipmentRegister:
+    properties:
+      description:
+        type: string
+      model:
+        type: string
+      name:
+        type: string
+      serialNumber:
+        type: string
+    type: object
   schemas.EquipmentResponse:
     properties:
       description:
@@ -137,6 +148,31 @@ paths:
       tags:
       - Client
   /client/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a client
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ClientResponse'
+      summary: Delete a client
+      tags:
+      - Client
     get:
       consumes:
       - application/json
@@ -162,7 +198,65 @@ paths:
       summary: Get a client by id
       tags:
       - Client
+  /equipment:
+    get:
+      consumes:
+      - application/json
+      description: Get all equipments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schemas.EquipmentResponse'
+            type: array
+      summary: Get all equipments
+      tags:
+      - Equipment
+    post:
+      consumes:
+      - application/json
+      description: Create a equipment
+      parameters:
+      - description: Equipment
+        in: body
+        name: equipment
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.EquipmentRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EquipmentResponse'
+      summary: Create a equipment
+      tags:
+      - Equipment
   /equipment/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a equipment
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EquipmentResponse'
+      summary: Delete a equipment
+      tags:
+      - Equipment
     get:
       consumes:
       - application/json
@@ -186,6 +280,32 @@ paths:
           schema:
             $ref: '#/definitions/schemas.EquipmentResponse'
       summary: Get a equipment by id
+      tags:
+      - Equipment
+    put:
+      consumes:
+      - application/json
+      description: Update a equipment
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Equipment
+        in: body
+        name: equipment
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.EquipmentRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EquipmentResponse'
+      summary: Update a equipment
       tags:
       - Equipment
   /login:

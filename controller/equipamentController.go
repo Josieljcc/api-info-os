@@ -30,6 +30,14 @@ func GetEquipmentbyIdController(c *gin.Context) {
 	c.JSON(http.StatusOK, equipment)
 }
 
+// GetEquipmentsController godoc
+// @Summary Get all equipments
+// @Description Get all equipments
+// @Tags Equipment
+// @Accept json
+// @Produce json
+// @Success 200 {object} []schemas.EquipmentResponse
+// @Router /equipment [get]
 func GetEquipmentsController(c *gin.Context) {
 	equipments, err := service.GetEquipments()
 	if err != nil {
@@ -41,6 +49,15 @@ func GetEquipmentsController(c *gin.Context) {
 	c.JSON(http.StatusOK, equipments)
 }
 
+// CreateEquipmentController godoc
+// @Summary Create a equipment
+// @Description Create a equipment
+// @Tags Equipment
+// @Accept json
+// @Produce json
+// @Param equipment body schemas.EquipmentRegister true "Equipment"
+// @Success 200 {object} schemas.EquipmentResponse
+// @Router /equipment [post]
 func CreateEquipmentController(c *gin.Context) {
 	var equipment schemas.Equipment
 	if err := c.ShouldBindJSON(&equipment); err != nil {
@@ -59,6 +76,16 @@ func CreateEquipmentController(c *gin.Context) {
 	c.JSON(http.StatusCreated, equipmentResponse)
 }
 
+// UpdateEquipmentController godoc
+// @Summary Update a equipment
+// @Description Update a equipment
+// @Tags Equipment
+// @Accept json
+// @Produce json
+// @Param id path string true "Equipment ID"
+// @Param equipment body schemas.EquipmentRegister true "Equipment"
+// @Success 200 {object} schemas.EquipmentResponse
+// @Router /equipment/{id} [put]
 func UpdateEquipmentController(c *gin.Context) {
 	var equipment schemas.Equipment
 	id := c.Param("id")
@@ -80,6 +107,15 @@ func UpdateEquipmentController(c *gin.Context) {
 	})
 }
 
+// DeleteEquipmentController godoc
+// @Summary Delete a equipment
+// @Description Delete a equipment
+// @Tags Equipment
+// @Accept json
+// @Produce json
+// @Param id path string true "Equipment ID"
+// @Success 200 {object} schemas.EquipmentResponse
+// @Router /equipment/{id} [delete]
 func DeleteEquipmentController(c *gin.Context) {
 	id := c.Param("id")
 	err := service.DeleteEquipment(id)
