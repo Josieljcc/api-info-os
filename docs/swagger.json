@@ -181,6 +181,15 @@
                     "Equipment"
                 ],
                 "summary": "Get all equipments",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -206,6 +215,13 @@
                 ],
                 "summary": "Create a equipment",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Equipment",
                         "name": "equipment",
@@ -279,6 +295,13 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "Equipment ID",
                         "name": "id",
                         "in": "path",
@@ -316,6 +339,13 @@
                 ],
                 "summary": "Delete a equipment",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Equipment ID",

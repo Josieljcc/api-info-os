@@ -36,6 +36,7 @@ func GetEquipmentbyIdController(c *gin.Context) {
 // @Tags Equipment
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Success 200 {object} []schemas.EquipmentResponse
 // @Router /equipment [get]
 func GetEquipmentsController(c *gin.Context) {
@@ -55,6 +56,7 @@ func GetEquipmentsController(c *gin.Context) {
 // @Tags Equipment
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Param equipment body schemas.EquipmentRegister true "Equipment"
 // @Success 200 {object} schemas.EquipmentResponse
 // @Router /equipment [post]
@@ -82,6 +84,7 @@ func CreateEquipmentController(c *gin.Context) {
 // @Tags Equipment
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Param id path string true "Equipment ID"
 // @Param equipment body schemas.EquipmentRegister true "Equipment"
 // @Success 200 {object} schemas.EquipmentResponse
@@ -113,6 +116,7 @@ func UpdateEquipmentController(c *gin.Context) {
 // @Tags Equipment
 // @Accept json
 // @Produce json
+// @Param authorization header string true "Bearer Authorization"
 // @Param id path string true "Equipment ID"
 // @Success 200 {object} schemas.EquipmentResponse
 // @Router /equipment/{id} [delete]

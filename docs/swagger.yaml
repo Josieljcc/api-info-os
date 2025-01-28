@@ -203,6 +203,12 @@ paths:
       consumes:
       - application/json
       description: Get all equipments
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -220,6 +226,11 @@ paths:
       - application/json
       description: Create a equipment
       parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       - description: Equipment
         in: body
         name: equipment
@@ -242,6 +253,11 @@ paths:
       - application/json
       description: Delete a equipment
       parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       - description: Equipment ID
         in: path
         name: id
@@ -287,6 +303,11 @@ paths:
       - application/json
       description: Update a equipment
       parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
       - description: Equipment ID
         in: path
         name: id

@@ -187,6 +187,15 @@ const docTemplate = `{
                     "Equipment"
                 ],
                 "summary": "Get all equipments",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -212,6 +221,13 @@ const docTemplate = `{
                 ],
                 "summary": "Create a equipment",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Equipment",
                         "name": "equipment",
@@ -285,6 +301,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "Equipment ID",
                         "name": "id",
                         "in": "path",
@@ -322,6 +345,13 @@ const docTemplate = `{
                 ],
                 "summary": "Delete a equipment",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Equipment ID",
