@@ -48,6 +48,19 @@ definitions:
       phone:
         type: string
     type: object
+  schemas.EquipmentResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      model:
+        type: string
+      name:
+        type: string
+      serialNumber:
+        type: string
+    type: object
   schemas.PartCreate:
     properties:
       description:
@@ -74,7 +87,7 @@ info:
   title: API de Controle de Ordens de Serviço
   version: "1.0"
 paths:
-  /clients:
+  /client:
     get:
       consumes:
       - application/json
@@ -97,65 +110,14 @@ paths:
       summary: Get all clients
       tags:
       - Client
-  /clients/{id}:
-    delete:
+    post:
       consumes:
       - application/json
-      description: Delete a client
-      parameters:
-      - description: Client ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Bearer Authorization
-        in: header
-        name: authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.ClientResponse'
-      summary: Delete a client
-      tags:
-      - Client
-    get:
-      consumes:
-      - application/json
-      description: Get a client
+      description: Create a client
       parameters:
       - description: Bearer Authorization
         in: header
         name: authorization
-        required: true
-        type: string
-      - description: Client ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.ClientResponse'
-      summary: Get a client
-      tags:
-      - Client
-    put:
-      consumes:
-      - application/json
-      description: Update a client
-      parameters:
-      - description: Client ID
-        in: path
-        name: id
         required: true
         type: string
       - description: Client
@@ -164,9 +126,30 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.ClientRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ClientResponse'
+      summary: Create a client
+      tags:
+      - Client
+  /client/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a client by id
+      parameters:
       - description: Bearer Authorization
         in: header
         name: authorization
+        required: true
+        type: string
+      - description: Client ID
+        in: path
+        name: id
         required: true
         type: string
       produces:
@@ -176,9 +159,35 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.ClientResponse'
-      summary: Update a client
+      summary: Get a client by id
       tags:
       - Client
+  /equipment/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a equipment by id
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Equipment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EquipmentResponse'
+      summary: Get a equipment by id
+      tags:
+      - Equipment
   /login:
     post:
       consumes:
@@ -276,7 +285,7 @@ paths:
       summary: Update Order
       tags:
       - Order
-  /parts:
+  /part:
     get:
       consumes:
       - application/json
@@ -309,7 +318,7 @@ paths:
       summary: Create Part
       tags:
       - Part
-  /parts/{id}:
+  /part/{id}:
     delete:
       consumes:
       - application/json

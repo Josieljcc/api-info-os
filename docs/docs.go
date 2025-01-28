@@ -24,7 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/clients": {
+        "/client": {
             "get": {
                 "description": "Get all clients",
                 "consumes": [
@@ -57,11 +57,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/clients/{id}": {
-            "get": {
-                "description": "Get a client",
+            },
+            "post": {
+                "description": "Create a client",
                 "consumes": [
                     "application/json"
                 ],
@@ -71,50 +69,13 @@ const docTemplate = `{
                 "tags": [
                     "Client"
                 ],
-                "summary": "Get a client",
+                "summary": "Create a client",
                 "parameters": [
                     {
                         "type": "string",
                         "description": "Bearer Authorization",
                         "name": "authorization",
                         "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Client ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.ClientResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update a client",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Client"
-                ],
-                "summary": "Update a client",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Client ID",
-                        "name": "id",
-                        "in": "path",
                         "required": true
                     },
                     {
@@ -125,12 +86,44 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.ClientRegister"
                         }
-                    },
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ClientResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/client/{id}": {
+            "get": {
+                "description": "Get a client by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Get a client by id",
+                "parameters": [
                     {
                         "type": "string",
                         "description": "Bearer Authorization",
                         "name": "authorization",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client ID",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -142,9 +135,11 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Delete a client",
+            }
+        },
+        "/equipment/{id}": {
+            "get": {
+                "description": "Get a equipment by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -152,22 +147,22 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Client"
+                    "Equipment"
                 ],
-                "summary": "Delete a client",
+                "summary": "Get a equipment by id",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Client ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Bearer Authorization",
                         "name": "authorization",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Equipment ID",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -175,7 +170,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ClientResponse"
+                            "$ref": "#/definitions/schemas.EquipmentResponse"
                         }
                     }
                 }
@@ -323,7 +318,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/parts": {
+        "/part": {
             "get": {
                 "description": "Get Parts",
                 "consumes": [
@@ -371,7 +366,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/parts/{id}": {
+        "/part/{id}": {
             "get": {
                 "description": "Get Part",
                 "consumes": [
@@ -715,6 +710,26 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.EquipmentResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "serialNumber": {
                     "type": "string"
                 }
             }
