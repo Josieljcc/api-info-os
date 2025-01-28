@@ -28,6 +28,7 @@ func initializeRoutes(router *gin.Engine) {
 	var partPatch = "/part"
 	var orderPatch = "/order"
 	var servicePatch = "/service"
+	var equipmentPatch = "/equipment"
 
 	authRoutes := v1.Group("/")
 	authRoutes.Use(middleware.AuthMiddleware())
@@ -60,4 +61,10 @@ func initializeRoutes(router *gin.Engine) {
 	authRoutes.PUT(servicePatch+"/:id", controller.UpdateServiceController)
 	authRoutes.DELETE(servicePatch+"/:id", controller.DeleteServiceController)
 	authRoutes.GET(servicePatch, controller.GetServicesController)
+
+	authRoutes.GET(equipmentPatch+"/:id", controller.GetEquipmentbyIdController)
+	authRoutes.POST(equipmentPatch, controller.CreateEquipmentController)
+	authRoutes.PUT(equipmentPatch+"/:id", controller.UpdateEquipmentController)
+	authRoutes.DELETE(equipmentPatch+"/:id", controller.DeleteEquipmentController)
+	authRoutes.GET(equipmentPatch, controller.GetEquipmentsController)
 }
