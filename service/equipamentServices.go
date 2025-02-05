@@ -50,8 +50,8 @@ func UpdateEquipment(equipment schemas.Equipment, id string) error {
 	if equipment.Description != "" {
 		equipmentUpdated.Description = equipment.Description
 	}
-	if equipment.EquipamentModel != "" {
-		equipmentUpdated.EquipamentModel = equipment.EquipamentModel
+	if equipment.EquipmentModel != "" {
+		equipmentUpdated.EquipmentModel = equipment.EquipmentModel
 	}
 	if equipment.SerialNumber != "" {
 		equipmentUpdated.SerialNumber = equipment.SerialNumber
