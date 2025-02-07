@@ -931,9 +931,6 @@ const docTemplate = `{
         "schemas.EquipmentResponse": {
             "type": "object",
             "properties": {
-                "client": {
-                    "$ref": "#/definitions/schemas.ClientResponse"
-                },
                 "description": {
                     "type": "string"
                 },

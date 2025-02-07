@@ -21,12 +21,11 @@ type EquipmentRegister struct {
 }
 
 type EquipmentResponse struct {
-	ID             uint           `json:"id"`
-	Name           string         `json:"name"`
-	Description    string         `json:"description"`
-	EquipmentModel string         `json:"model"`
-	SerialNumber   string         `json:"serialNumber"`
-	Client         ClientResponse `json:"client"`
+	ID             uint   `json:"id"`
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+	EquipmentModel string `json:"model"`
+	SerialNumber   string `json:"serialNumber"`
 }
 
 func (e Equipment) ToResponse() EquipmentResponse {
