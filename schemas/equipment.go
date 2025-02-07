@@ -9,6 +9,7 @@ type Equipment struct {
 	EquipmentModel string `gorm:"size:50" json:"model"`
 	SerialNumber   string `gorm:"size:100; uniqueIndex" json:"serialNumber"`
 	ClientID       uint   `gorm:"not null" json:"clientID"`
+	Client         Client `gorm:"foreignkey:ClientID" json:"client"`
 }
 
 type EquipmentRegister struct {
@@ -20,12 +21,12 @@ type EquipmentRegister struct {
 }
 
 type EquipmentResponse struct {
-	ID             uint   `json:"id"`
-	Name           string `json:"name"`
-	Description    string `json:"description"`
-	EquipmentModel string `json:"model"`
-	SerialNumber   string `json:"serialNumber"`
-	Client         Client `json:"client"`
+	ID             uint           `json:"id"`
+	Name           string         `json:"name"`
+	Description    string         `json:"description"`
+	EquipmentModel string         `json:"model"`
+	SerialNumber   string         `json:"serialNumber"`
+	Client         ClientResponse `json:"client"`
 }
 
 func (e Equipment) ToResponse() EquipmentResponse {
@@ -35,6 +36,5 @@ func (e Equipment) ToResponse() EquipmentResponse {
 		Description:    e.Description,
 		EquipmentModel: e.EquipmentModel,
 		SerialNumber:   e.SerialNumber,
-		Client:         Client{ID: e.ClientID},
 	}
 }
