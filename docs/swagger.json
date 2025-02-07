@@ -905,6 +905,9 @@
         "schemas.EquipmentRegister": {
             "type": "object",
             "properties": {
+                "clientID": {
+                    "type": "integer"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -922,6 +925,9 @@
         "schemas.EquipmentResponse": {
             "type": "object",
             "properties": {
+                "client": {
+                    "$ref": "#/definitions/schemas.ClientResponse"
+                },
                 "description": {
                     "type": "string"
                 },

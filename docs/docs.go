@@ -911,6 +911,9 @@ const docTemplate = `{
         "schemas.EquipmentRegister": {
             "type": "object",
             "properties": {
+                "clientID": {
+                    "type": "integer"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -928,6 +931,9 @@ const docTemplate = `{
         "schemas.EquipmentResponse": {
             "type": "object",
             "properties": {
+                "client": {
+                    "$ref": "#/definitions/schemas.ClientResponse"
+                },
                 "description": {
                     "type": "string"
                 },

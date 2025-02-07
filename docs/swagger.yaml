@@ -50,6 +50,8 @@ definitions:
     type: object
   schemas.EquipmentRegister:
     properties:
+      clientID:
+        type: integer
       description:
         type: string
       model:
@@ -61,6 +63,8 @@ definitions:
     type: object
   schemas.EquipmentResponse:
     properties:
+      client:
+        $ref: '#/definitions/schemas.ClientResponse'
       description:
         type: string
       id:
