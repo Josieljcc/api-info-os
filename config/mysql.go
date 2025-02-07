@@ -26,6 +26,7 @@ func initMySQL() (*gorm.DB, error) {
 		&schemas.Service{},
 		&schemas.Part{},
 		&schemas.Order{},
+		&schemas.Equipment{},
 	)
 	if err != nil {
 		logger.Errorf("failed to migrate database: %v", err)
