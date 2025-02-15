@@ -79,6 +79,7 @@ func LoginController(c *gin.Context) {
 		"role":  role,
 		"email": creds.Email,
 		"name":  name,
+		"id":    idToCreateToken,
 	})
 
 }
