@@ -24,10 +24,10 @@ type ClientResponse struct {
 }
 
 type CientResponseWithPagination struct {
-	Clients []ClientResponse `json:"clients"`
-	Total   int              `json:"total"`
-	Page    int              `json:"page"`
-	Size    int              `json:"size"`
+	Clients    []ClientResponse `json:"clients"`
+	TotalPages int              `json:"totalPages"`
+	Page       int              `json:"page"`
+	PageSize   int              `json:"pageSize"`
 }
 
 type ClientRegister struct {

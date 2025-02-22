@@ -50,10 +50,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.ClientResponse"
-                            }
+                            "$ref": "#/definitions/schemas.CientResponseWithPagination"
                         }
                     }
                 }
@@ -837,6 +834,26 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.CientResponseWithPagination": {
+            "type": "object",
+            "properties": {
+                "clients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ClientResponse"
+                    }
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
         "schemas.ClientLogin": {
             "type": "object",
             "properties": {

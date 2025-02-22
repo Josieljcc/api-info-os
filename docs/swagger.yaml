@@ -1,5 +1,18 @@
 basePath: /api/v1
 definitions:
+  schemas.CientResponseWithPagination:
+    properties:
+      clients:
+        items:
+          $ref: '#/definitions/schemas.ClientResponse'
+        type: array
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
   schemas.ClientLogin:
     properties:
       email:
@@ -117,9 +130,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/schemas.ClientResponse'
-            type: array
+            $ref: '#/definitions/schemas.CientResponseWithPagination'
       summary: Get all clients
       tags:
       - Client
