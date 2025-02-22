@@ -6,12 +6,13 @@ import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/utils"
+	"github.com/gin-gonic/gin"
 )
 
-func GetClients() ([]schemas.ClientResponse, error) {
+func GetClients(c *gin.Context) ([]schemas.ClientResponse, error) {
 	db := config.GetDB()
 	var clients []schemas.Client
-	if err := db.Find(&clients).Error; err != nil {
+	if err := db.Find(&clients).Scopes(Paginate(c)).Error; err != nil {
 		return nil, err
 	}
 	var clientsResponse []schemas.ClientResponse

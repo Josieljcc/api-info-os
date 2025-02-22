@@ -23,6 +23,13 @@ type ClientResponse struct {
 	Phone   string `json:"phone"`
 }
 
+type CientResponseWithPagination struct {
+	Clients []ClientResponse `json:"clients"`
+	Total   int              `json:"total"`
+	Page    int              `json:"page"`
+	Size    int              `json:"size"`
+}
+
 type ClientRegister struct {
 	Name     string `json:"name" example:"Josiel"`
 	Email    string `json:"email" example:"josiel.jcc@hotmail.com"`

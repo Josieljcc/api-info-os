@@ -77,7 +77,7 @@ func GetClientController(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
-// @Success 200 {object} []schemas.ClientResponse
+// @Success 200 {object} schemas.CientResponseWithPagination
 // @Router /client [get]
 func GetClientsController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
@@ -86,14 +86,22 @@ func GetClientsController(c *gin.Context) {
 		return
 	}
 
-	clientsResponse, err := service.GetClients()
+	clientsResponse, err := service.GetClients(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, clientsResponse)
+
+	response := gin.H{
+		"clients": clientsResponse,
+		"total":   c.MustGet("totalPages").(int),
+		"page":    c.MustGet("page").(int),
+		"size":    c.MustGet("pageSize").(int),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // UpdateClientController godoc
