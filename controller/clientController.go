@@ -77,6 +77,8 @@ func GetClientController(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
+// @Param page query string false "Page number"
+// @Param pageSize query string false "Page size"
 // @Success 200 {object} schemas.CientResponseWithPagination
 // @Router /client [get]
 func GetClientsController(c *gin.Context) {

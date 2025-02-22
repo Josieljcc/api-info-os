@@ -124,6 +124,14 @@ paths:
         name: authorization
         required: true
         type: string
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Page size
+        in: query
+        name: pageSize
+        type: string
       produces:
       - application/json
       responses:
