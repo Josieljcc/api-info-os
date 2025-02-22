@@ -8,14 +8,14 @@ import (
 	"gorm.io/gorm"
 )
 
-func Paginate(ctx *gin.Context) func(db *gorm.DB) *gorm.DB {
+func Paginate(c *gin.Context) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		pageStr := ctx.DefaultQuery("page", "1")
+		pageStr := c.DefaultQuery("page", "1")
 		page, _ := strconv.Atoi(pageStr)
 		if page < 1 {
 			page = 1
 		}
-		pageSizeStr := ctx.DefaultQuery("pageSize", "10")
+		pageSizeStr := c.DefaultQuery("pageSize", "10")
 		pageSize, _ := strconv.Atoi(pageSizeStr)
 		switch {
 		case pageSize > 100:
@@ -30,9 +30,9 @@ func Paginate(ctx *gin.Context) func(db *gorm.DB) *gorm.DB {
 
 		totalPages := int(math.Ceil(float64(total) / float64(pageSize)))
 
-		ctx.Set("totalPages", totalPages)
-		ctx.Set("page", page)
-		ctx.Set("pageSize", pageSize)
+		c.Set("totalPages", totalPages)
+		c.Set("page", page)
+		c.Set("pageSize", pageSize)
 
 		offset := (page - 1) * pageSize
 		return db.Offset(offset).Limit(pageSize)

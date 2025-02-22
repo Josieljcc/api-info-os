@@ -95,10 +95,10 @@ func GetClientsController(c *gin.Context) {
 	}
 
 	response := gin.H{
-		"clients": clientsResponse,
-		"total":   c.MustGet("totalPages").(int),
-		"page":    c.MustGet("page").(int),
-		"size":    c.MustGet("pageSize").(int),
+		"clients":    clientsResponse,
+		"totalPages": c.GetInt("totalPages"),
+		"page":       c.GetInt("page"),
+		"pageSize":   c.GetInt("pageSize"),
 	}
 
 	c.JSON(http.StatusOK, response)

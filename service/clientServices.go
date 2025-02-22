@@ -12,13 +12,15 @@ import (
 func GetClients(c *gin.Context) ([]schemas.ClientResponse, error) {
 	db := config.GetDB()
 	var clients []schemas.Client
-	if err := db.Find(&clients).Scopes(Paginate(c)).Error; err != nil {
+	if err := db.Scopes(Paginate(c)).Find(&clients).Error; err != nil {
 		return nil, err
 	}
 	var clientsResponse []schemas.ClientResponse
 	for _, client := range clients {
 		clientsResponse = append(clientsResponse, client.ToResponse())
 	}
+
+	c.Next()
 	return clientsResponse, nil
 }
 
