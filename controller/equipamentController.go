@@ -37,17 +37,27 @@ func GetEquipmentbyIdController(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
-// @Success 200 {object} []schemas.EquipmentResponse
+// @Param page query string false "Page number"
+// @Param pageSize query string false "Page size"
+// @Success 200 {object} schemas.EquipmentResponse
 // @Router /equipment [get]
 func GetEquipmentsController(c *gin.Context) {
-	equipments, err := service.GetEquipments()
+	equipments, err := service.GetEquipments(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, equipments)
+
+	response := gin.H{
+		"equipments": equipments,
+		"totalPages": c.GetInt("totalPages"),
+		"page":       c.GetInt("page"),
+		"pageSize":   c.GetInt("pageSize"),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // CreateEquipmentController godoc

@@ -26,6 +26,9 @@ type EquipmentResponse struct {
 	Description    string `json:"description"`
 	EquipmentModel string `json:"model"`
 	SerialNumber   string `json:"serialNumber"`
+	TotalPages     int    `json:"totalPages"`
+	Page           int    `json:"page"`
+	PageSize       int    `json:"pageSize"`
 }
 
 func (e Equipment) ToResponse() EquipmentResponse {

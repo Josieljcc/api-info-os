@@ -19,6 +19,10 @@ type ServiceResponse struct {
 	Description string  `json:"description"`
 	Time        int     `json:"time"`
 	Price       float64 `json:"price"`
+	Orders      []Order `json:"orders"`
+	TotalPages  int     `json:"totalPages"`
+	Page        int     `json:"page"`
+	PageSize    int     `json:"pageSize"`
 }
 
 func (s Service) ToResponse() ServiceResponse {

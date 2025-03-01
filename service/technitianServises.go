@@ -4,7 +4,17 @@ import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/utils"
+	"github.com/gin-gonic/gin"
 )
+
+func GetTechnicians(c *gin.Context) ([]schemas.TechnicianResponse, error) {
+	db := config.GetDB()
+	var technicians []schemas.TechnicianResponse
+	err := db.Scopes(Paginate(c)).Find(&technicians).Error
+
+	c.Next()
+	return technicians, err
+}
 
 func GetTechnician(id string) (schemas.Technician, error) {
 	db := config.GetDB()
@@ -18,13 +28,6 @@ func GetTechnicianByEmail(email string) (schemas.Technician, error) {
 	var technician schemas.Technician
 	err := db.Where("email = ?", email).First(&technician).Error
 	return technician, err
-}
-
-func GetTechnicians() ([]schemas.Technician, error) {
-	db := config.GetDB()
-	var technicians []schemas.Technician
-	err := db.Find(&technicians).Error
-	return technicians, err
 }
 
 func CreateTechnician(technician schemas.Technician) (technicianResponse schemas.TechnicianResponse, err error) {

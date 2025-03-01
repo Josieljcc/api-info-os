@@ -40,20 +40,31 @@ func GetOrderController(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Router /orders [get]
+// @Success 200 {object} schemas.OrderResponse
+// @Param page query string false "Page number"
+// @Param pageSize query string false "Page size"
 func GetOrdersController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
 		return
 	}
 
-	ordersResponse, err := service.GetOrders()
+	ordersResponse, err := service.GetOrders(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, ordersResponse)
+
+	response := gin.H{
+		"orders":     ordersResponse,
+		"totalPages": c.GetInt("totalPages"),
+		"page":       c.GetInt("page"),
+		"pageSize":   c.GetInt("pageSize"),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Create Order

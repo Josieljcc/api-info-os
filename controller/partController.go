@@ -15,20 +15,31 @@ import (
 // @Accept  json
 // @Produce  json
 // @Router /part [get]
+// @Success 200 {object} schemas.PartResponse
+// @Param page query string false "Page number"
+// @Param pageSize query string false "Page size"
 func GetPartsController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
 		return
 	}
 
-	partsResponse, err := service.GetParts()
+	partsResponse, err := service.GetParts(c)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, partsResponse)
+
+	response := gin.H{
+		"parts":      partsResponse,
+		"totalPages": c.GetInt("totalPages"),
+		"page":       c.GetInt("page"),
+		"pageSize":   c.GetInt("pageSize"),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Get Part

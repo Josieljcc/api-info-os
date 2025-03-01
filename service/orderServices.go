@@ -3,15 +3,18 @@ package service
 import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm/clause"
 )
 
-func GetOrders() ([]schemas.Order, error) {
+func GetOrders(c *gin.Context) ([]schemas.Order, error) {
 	db := config.GetDB()
 	var orders []schemas.Order
-	if err := db.Preload(clause.Associations).Find(&orders).Error; err != nil {
+	if err := db.Scopes(Paginate(c)).Preload(clause.Associations).Find(&orders).Error; err != nil {
 		return nil, err
 	}
+
+	c.Next()
 	return orders, nil
 }
 

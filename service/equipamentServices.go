@@ -3,18 +3,21 @@ package service
 import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
+	"github.com/gin-gonic/gin"
 )
 
-func GetEquipments() ([]schemas.EquipmentResponse, error) {
+func GetEquipments(c *gin.Context) ([]schemas.EquipmentResponse, error) {
 	db := config.GetDB()
 	var equipments []schemas.Equipment
-	if err := db.Find(&equipments).Error; err != nil {
+	if err := db.Scopes(Paginate(c)).Find(&equipments).Error; err != nil {
 		return nil, err
 	}
 	var equipmentsResponse []schemas.EquipmentResponse
 	for _, equipment := range equipments {
 		equipmentsResponse = append(equipmentsResponse, equipment.ToResponse())
 	}
+
+	c.Next()
 	return equipmentsResponse, nil
 }
 

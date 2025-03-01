@@ -15,20 +15,31 @@ import (
 // @Accept  json
 // @Produce  json
 // @Router /services [get]
+// @Success 200 {object} schemas.ServiceResponse
+// @Param page query string false "Page number"
+// @Param pageSize query string false "Page size"
 func GetServicesController(c *gin.Context) {
 	isAuthorized := utils.VerifyRole(c)
 	if !isAuthorized {
 		return
 	}
 
-	servicesResponse, err := service.GetServices()
+	servicesResponse, err := service.GetServices(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusOK, servicesResponse)
+
+	response := gin.H{
+		"services":   servicesResponse,
+		"totalPages": c.GetInt("totalPages"),
+		"page":       c.GetInt("page"),
+		"pageSize":   c.GetInt("pageSize"),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // @Summary Create Service

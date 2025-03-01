@@ -20,6 +20,9 @@ type PartResponse struct {
 	Quantity    int     `json:"quantity"`
 	Price       float64 `json:"price"`
 	Orders      []Order `json:"orders"`
+	TotalPages  int     `json:"totalPages"`
+	Page        int     `json:"page"`
+	PageSize    int     `json:"pageSize"`
 }
 
 type PartCreate struct {

@@ -8,6 +8,34 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Get Technicians
+// @Description Get Technicians
+// @Tags Technician
+// @Accept  json
+// @Produce  json
+// @Router /technicians [get]
+// @Success 200 {object} schemas.TechnicianResponse
+// @Param page query string false "Page number"
+// @Param pageSize query string false "Page size"
+func GetTechniciansController(c *gin.Context) {
+	technicians, err := service.GetTechnicians(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	response := gin.H{
+		"technicians": technicians,
+		"totalPages":  c.GetInt("totalPages"),
+		"page":        c.GetInt("page"),
+		"pageSize":    c.GetInt("pageSize"),
+	}
+
+	c.JSON(http.StatusOK, response)
+}
+
 // @Summary Get Technician
 // @Description Get Technician
 // @Tags Technician
@@ -97,25 +125,4 @@ func DeleteTechnicianController(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Technician deleted",
 	})
-}
-
-// @Summary Get Technicians
-// @Description Get Technicians
-// @Tags Technician
-// @Accept  json
-// @Produce  json
-// @Router /technicians [get]
-func GetTechniciansController(c *gin.Context) {
-	technicians, err := service.GetTechnicians()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	var techniciansResponse []schemas.TechnicianResponse
-	for _, technician := range technicians {
-		techniciansResponse = append(techniciansResponse, technician.ToResponse())
-	}
-	c.JSON(http.StatusOK, techniciansResponse)
 }

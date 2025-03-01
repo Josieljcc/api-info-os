@@ -22,6 +22,9 @@ type OrderResponse struct {
 	Technician Technician `json:"technician"`
 	Services   []Service  `json:"services"`
 	Parts      []Part     `json:"parts"`
+	TotalPages int        `json:"totalPages"`
+	Page       int        `json:"page"`
+	PageSize   int        `json:"pageSize"`
 }
 
 func (o Order) ToResponse() OrderResponse {

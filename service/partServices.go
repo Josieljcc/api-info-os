@@ -3,16 +3,20 @@ package service
 import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm/clause"
 )
 
-func GetParts() ([]schemas.PartResponse, error) {
+func GetParts(c *gin.Context) ([]schemas.PartResponse, error) {
 	db := config.GetDB()
 	var parts []schemas.Part
-	db.Find(&parts)
+	db.Scopes(Paginate(c)).Preload(clause.Associations).Find(&parts)
 	var partsResponse []schemas.PartResponse
 	for _, part := range parts {
 		partsResponse = append(partsResponse, part.ToResponse())
 	}
+
+	c.Next()
 	return partsResponse, nil
 }
 
