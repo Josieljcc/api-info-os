@@ -9,20 +9,8 @@ on:
 
 jobs:
 
-  update:
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: trust repo
-      run: git config --global --add safe.directory /home/api-info-os/actions-runner/_work/api-info-os/api-info-os
-
-    - name: pull
-      run: git pull
-
   deploy:
     runs-on: self-hosted
-    needs: update
     
     steps:
     - name: Checkout code
