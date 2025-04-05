@@ -50,6 +50,10 @@ func CreateClientController(c *gin.Context) {
 // @Produce json
 // @Param authorization header string true "Bearer Authorization"
 // @Param id path string true "Client ID"
+// @Param name query string false "Name"
+// @Param email query string false "Email"
+// @Param phone query string false "Phone"
+// @Param address query string false "Address"
 // @Success 200 {object} schemas.ClientResponse
 // @Router /client/{id} [get]
 func GetClientController(c *gin.Context) {

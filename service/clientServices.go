@@ -12,10 +12,33 @@ import (
 func GetClients(c *gin.Context) ([]schemas.ClientResponse, error) {
 	db := config.GetDB()
 	var clients []schemas.Client
-	if err := db.Scopes(Paginate(c)).Find(&clients).Error; err != nil {
+
+	query := db.Scopes(Paginate(c))
+
+	if c.Query("name") != "" {
+		query = query.Where("name LIKE ?", "%"+c.Query("name")+"%")
+	}
+
+	if c.Query("email") != "" {
+		query = query.Where("email LIKE ?", "%"+c.Query("email")+"%")
+	}
+
+	if c.Query("phone") != "" {
+		query = query.Where("phone LIKE ?", "%"+c.Query("phone")+"%")
+	}
+
+	if c.Query("address") != "" {
+		query = query.Where("address LIKE ?", "%"+c.Query("address")+"%")
+	}
+
+	err := query.Find(&clients).Error
+
+	if err != nil {
 		return nil, err
 	}
+
 	var clientsResponse []schemas.ClientResponse
+
 	for _, client := range clients {
 		clientsResponse = append(clientsResponse, client.ToResponse())
 	}
