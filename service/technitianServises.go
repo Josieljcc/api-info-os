@@ -9,11 +9,16 @@ import (
 
 func GetTechnicians(c *gin.Context) ([]schemas.TechnicianResponse, error) {
 	db := config.GetDB()
-	var technicians []schemas.TechnicianResponse
+	var technicians []schemas.Technician
 	err := db.Scopes(Paginate(c)).Find(&technicians).Error
 
+	var technicianResponse []schemas.TechnicianResponse
+	for _, technician := range technicians {
+		technicianResponse = append(technicianResponse, technician.ToResponse())
+	}
+
 	c.Next()
-	return technicians, err
+	return technicianResponse, err
 }
 
 func GetTechnician(id string) (schemas.Technician, error) {
