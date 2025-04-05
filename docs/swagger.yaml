@@ -290,6 +290,22 @@ paths:
         name: id
         required: true
         type: string
+      - description: Name
+        in: query
+        name: name
+        type: string
+      - description: Email
+        in: query
+        name: email
+        type: string
+      - description: Phone
+        in: query
+        name: phone
+        type: string
+      - description: Address
+        in: query
+        name: address
+        type: string
       produces:
       - application/json
       responses:
