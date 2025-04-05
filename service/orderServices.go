@@ -7,15 +7,37 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func GetOrders(c *gin.Context) ([]schemas.Order, error) {
+func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 	db := config.GetDB()
 	var orders []schemas.Order
-	if err := db.Scopes(Paginate(c)).Preload(clause.Associations).Find(&orders).Error; err != nil {
+
+	query := db.Scopes(Paginate(c))
+
+	if c.Query("clientID") != "" {
+		query = query.Where("client_id = ?", c.Query("clientID"))
+	}
+
+	if c.Query("status") != "" {
+		query = query.Where("status = ?", c.Query("status"))
+	}
+
+	if c.Query("technicianID") != "" {
+		query = query.Where("technician_id = ?", c.Query("technicianID"))
+	}
+
+	err := query.Preload(clause.Associations).Find(&orders).Error
+
+	if err != nil {
 		return nil, err
 	}
 
+	var orderResponse []schemas.OrderResponse
+	for _, order := range orders {
+		orderResponse = append(orderResponse, order.ToResponse())
+	}
+
 	c.Next()
-	return orders, nil
+	return orderResponse, nil
 }
 
 func GetOrder(id string) (schemas.Order, error) {

@@ -10,7 +10,26 @@ import (
 func GetTechnicians(c *gin.Context) ([]schemas.TechnicianResponse, error) {
 	db := config.GetDB()
 	var technicians []schemas.Technician
-	err := db.Scopes(Paginate(c)).Find(&technicians).Error
+
+	query := db.Scopes(Paginate(c))
+
+	if c.Query("name") != "" {
+		query = query.Where("name LIKE ?", "%"+c.Query("name")+"%")
+	}
+
+	if c.Query("email") != "" {
+		query = query.Where("email LIKE ?", "%"+c.Query("email")+"%")
+	}
+
+	if c.Query("phone") != "" {
+		query = query.Where("phone LIKE ?", "%"+c.Query("phone")+"%")
+	}
+
+	err := query.Find(&technicians).Error
+
+	if err != nil {
+		return nil, err
+	}
 
 	var technicianResponse []schemas.TechnicianResponse
 	for _, technician := range technicians {

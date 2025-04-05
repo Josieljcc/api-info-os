@@ -13,6 +13,13 @@ type Technician struct {
 	Orders   []Order `gorm:"foreignkey:TechnicianID"`
 }
 
+type TechnicianRegister struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+}
+
 type TechnicianResponse struct {
 	ID    uint   `json:"id"`
 	Name  string `json:"name"`

@@ -17,6 +17,9 @@ import (
 // @Success 200 {object} schemas.TechnicianResponse
 // @Param page query string false "Page number"
 // @Param pageSize query string false "Page size"
+// @Param name query string false "Name"
+// @Param email query string false "Email"
+// @Param phone query string false "Phone"
 func GetTechniciansController(c *gin.Context) {
 	technicians, err := service.GetTechnicians(c)
 	if err != nil {
@@ -56,12 +59,16 @@ func GetTechnicianController(c *gin.Context) {
 	c.JSON(http.StatusOK, technician.ToResponse())
 }
 
-// @Summary Create Technician
-// @Description Create Technician
+// CreateTechnicianController godoc
+// @Summary Create a Technician
+// @Description Create a Technician
 // @Tags Technician
-// @Accept  json
-// @Produce  json
-// @Router /register/technician [post]
+// @Accept json
+// @Produce json
+// @Param authorization header string true "Bearer Authorization"
+// @Param client body schemas.TechnicianRegister true "Technician"
+// @Success 200 {object} schemas.TechnicianResponse
+// @Router /technician [post]
 func CreateTechnicianController(c *gin.Context) {
 	var technician schemas.Technician
 	if err := c.ShouldBindJSON(&technician); err != nil {

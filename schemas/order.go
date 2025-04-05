@@ -14,26 +14,21 @@ type Order struct {
 }
 
 type OrderResponse struct {
-	ID         uint       `json:"id"`
-	Date       string     `json:"date"`
-	Status     string     `json:"status"`
-	Comment    string     `json:"comment"`
-	Client     Client     `json:"client"`
-	Technician Technician `json:"technician"`
-	Services   []Service  `json:"services"`
-	Parts      []Part     `json:"parts"`
-	TotalPages int        `json:"totalPages"`
-	Page       int        `json:"page"`
-	PageSize   int        `json:"pageSize"`
+	ID           uint   `json:"id"`
+	Date         string `json:"date"`
+	Status       string `json:"status"`
+	Comment      string `json:"comment"`
+	ClientID     string `json:"clientId"`
+	TechnicianID string `json:"technicianId"`
 }
 
 func (o Order) ToResponse() OrderResponse {
 	return OrderResponse{
-		ID:       o.ID,
-		Date:     o.Date,
-		Status:   o.Status,
-		Comment:  o.Comment,
-		Services: o.Services,
-		Parts:    o.Parts,
+		ID:           o.ID,
+		Date:         o.Date,
+		Status:       o.Status,
+		Comment:      o.Comment,
+		ClientID:     o.ClientID,
+		TechnicianID: o.TechnicianID,
 	}
 }

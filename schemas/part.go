@@ -19,7 +19,6 @@ type PartResponse struct {
 	Description string  `json:"description"`
 	Quantity    int     `json:"quantity"`
 	Price       float64 `json:"price"`
-	Orders      []Order `json:"orders"`
 	TotalPages  int     `json:"totalPages"`
 	Page        int     `json:"page"`
 	PageSize    int     `json:"pageSize"`
@@ -39,6 +38,5 @@ func (p Part) ToResponse() PartResponse {
 		Description: p.Description,
 		Quantity:    p.Quantity,
 		Price:       p.Price,
-		Orders:      p.Orders,
 	}
 }
