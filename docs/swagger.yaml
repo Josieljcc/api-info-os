@@ -84,7 +84,28 @@ definitions:
         type: string
       name:
         type: string
+      page:
+        type: integer
+      pageSize:
+        type: integer
       serialNumber:
+        type: string
+      totalPages:
+        type: integer
+    type: object
+  schemas.OrderResponse:
+    properties:
+      clientId:
+        type: string
+      comment:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      technicianId:
         type: string
     type: object
   schemas.PartCreate:
@@ -97,6 +118,66 @@ definitions:
         type: number
       quantity:
         type: integer
+    type: object
+  schemas.PartResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      price:
+        type: number
+      quantity:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  schemas.ServiceResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      price:
+        type: number
+      time:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  schemas.TechnicianRegister:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  schemas.TechnicianResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
     type: object
 host: localhost:8080
 info:
@@ -230,15 +311,21 @@ paths:
         name: authorization
         required: true
         type: string
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Page size
+        in: query
+        name: pageSize
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/schemas.EquipmentResponse'
-            type: array
+            $ref: '#/definitions/schemas.EquipmentResponse'
       summary: Get all equipments
       tags:
       - Equipment
@@ -377,9 +464,22 @@ paths:
       consumes:
       - application/json
       description: Get Orders
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Page size
+        in: query
+        name: pageSize
+        type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.OrderResponse'
       summary: Get Orders
       tags:
       - Order
@@ -452,9 +552,22 @@ paths:
       consumes:
       - application/json
       description: Get Parts
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Page size
+        in: query
+        name: pageSize
+        type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.PartResponse'
       summary: Get Parts
       tags:
       - Part
@@ -529,25 +642,27 @@ paths:
       summary: Update Part
       tags:
       - Part
-  /register/technician:
-    post:
-      consumes:
-      - application/json
-      description: Create Technician
-      produces:
-      - application/json
-      responses: {}
-      summary: Create Technician
-      tags:
-      - Technician
   /services:
     get:
       consumes:
       - application/json
       description: Get Services
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Page size
+        in: query
+        name: pageSize
+        type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ServiceResponse'
       summary: Get Services
       tags:
       - Service
@@ -610,14 +725,66 @@ paths:
       summary: Update Service
       tags:
       - Service
+  /technician:
+    post:
+      consumes:
+      - application/json
+      description: Create a Technician
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Technician
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.TechnicianRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.TechnicianResponse'
+      summary: Create a Technician
+      tags:
+      - Technician
   /technicians:
     get:
       consumes:
       - application/json
       description: Get Technicians
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Page size
+        in: query
+        name: pageSize
+        type: string
+      - description: Name
+        in: query
+        name: name
+        type: string
+      - description: Email
+        in: query
+        name: email
+        type: string
+      - description: Phone
+        in: query
+        name: phone
+        type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.TechnicianResponse'
       summary: Get Technicians
       tags:
       - Technician

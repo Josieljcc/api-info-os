@@ -203,16 +203,25 @@ const docTemplate = `{
                         "name": "authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page size",
+                        "name": "pageSize",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.EquipmentResponse"
-                            }
+                            "$ref": "#/definitions/schemas.EquipmentResponse"
                         }
                     }
                 }
@@ -426,7 +435,28 @@ const docTemplate = `{
                     "Order"
                 ],
                 "summary": "Get Orders",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page size",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.OrderResponse"
+                        }
+                    }
+                }
             },
             "post": {
                 "description": "Create Order",
@@ -534,7 +564,28 @@ const docTemplate = `{
                     "Part"
                 ],
                 "summary": "Get Parts",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page size",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.PartResponse"
+                        }
+                    }
+                }
             },
             "post": {
                 "description": "Create Part",
@@ -640,22 +691,6 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/register/technician": {
-            "post": {
-                "description": "Create Technician",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Technician"
-                ],
-                "summary": "Create Technician",
-                "responses": {}
-            }
-        },
         "/services": {
             "get": {
                 "description": "Get Services",
@@ -669,7 +704,28 @@ const docTemplate = `{
                     "Service"
                 ],
                 "summary": "Get Services",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page size",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ServiceResponse"
+                        }
+                    }
+                }
             },
             "post": {
                 "description": "Create Service",
@@ -757,6 +813,47 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/technician": {
+            "post": {
+                "description": "Create a Technician",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Technician"
+                ],
+                "summary": "Create a Technician",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Technician",
+                        "name": "client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.TechnicianRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.TechnicianResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/technicians": {
             "get": {
                 "description": "Get Technicians",
@@ -770,7 +867,46 @@ const docTemplate = `{
                     "Technician"
                 ],
                 "summary": "Get Technicians",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page size",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Email",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Phone",
+                        "name": "phone",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.TechnicianResponse"
+                        }
+                    }
+                }
             }
         },
         "/technicians/{id}": {
@@ -972,7 +1108,39 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
                 "serialNumber": {
+                    "type": "string"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.OrderResponse": {
+            "type": "object",
+            "properties": {
+                "clientId": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "technicianId": {
                     "type": "string"
                 }
             }
@@ -991,6 +1159,98 @@ const docTemplate = `{
                 },
                 "quantity": {
                     "type": "integer"
+                }
+            }
+        },
+        "schemas.PartResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.ServiceResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.TechnicianRegister": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.TechnicianResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
                 }
             }
         }
