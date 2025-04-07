@@ -4,14 +4,33 @@ import (
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm/clause"
 )
 
 func GetServices(c *gin.Context) ([]schemas.ServiceResponse, error) {
 	db := config.GetDB()
 	var services []schemas.Service
-	if err := db.Scopes(Paginate(c)).Preload("Orders").Find(&services).Error; err != nil {
+
+	query := db.Scopes(Paginate(c))
+
+	if c.Query("name") != "" {
+		query = query.Where("name LIKE ?", "%"+c.Query("name")+"%")
+	}
+
+	if c.Query("clientID") != "" {
+		query = query.Where("client_id = ?", c.Query("clientID"))
+	}
+
+	if c.Query("status") != "" {
+		query = query.Where("status = ?", c.Query("status"))
+	}
+
+	err := query.Preload(clause.Associations).Find(&services).Error
+
+	if err != nil {
 		return nil, err
 	}
+
 	var servicesResponse []schemas.ServiceResponse
 	for _, service := range services {
 		servicesResponse = append(servicesResponse, service.ToResponse())
