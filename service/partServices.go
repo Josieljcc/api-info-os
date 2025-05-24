@@ -12,16 +12,8 @@ func GetParts(c *gin.Context) ([]schemas.PartResponse, error) {
 	var parts []schemas.Part
 	query := db.Scopes(Paginate(c))
 
-	if c.Query("clientID") != "" {
-		query = query.Where("client_id = ?", c.Query("clientID"))
-	}
-
-	if c.Query("status") != "" {
-		query = query.Where("status = ?", c.Query("status"))
-	}
-
-	if c.Query("technicianID") != "" {
-		query = query.Where("technician_id = ?", c.Query("technicianID"))
+	if c.Query("name") != "" {
+		query = query.Where("name LIKE ?", "%"+c.Query("name")+"%")
 	}
 
 	err := query.Preload(clause.Associations).Find(&parts).Error
