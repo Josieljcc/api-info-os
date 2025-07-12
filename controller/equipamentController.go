@@ -5,6 +5,7 @@ import (
 
 	"github.com/Josieljcc/api-info-os/schemas"
 	"github.com/Josieljcc/api-info-os/service"
+	"github.com/Josieljcc/api-info-os/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,6 +43,11 @@ func GetEquipmentbyIdController(c *gin.Context) {
 // @Success 200 {object} schemas.EquipmentResponse
 // @Router /equipment [get]
 func GetEquipmentsController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
 	equipments, err := service.GetEquipments(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

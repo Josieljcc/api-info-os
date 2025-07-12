@@ -9,9 +9,19 @@ import (
 func GetEquipments(c *gin.Context) ([]schemas.EquipmentResponse, error) {
 	db := config.GetDB()
 	var equipments []schemas.Equipment
-	if err := db.Scopes(Paginate(c)).Find(&equipments).Error; err != nil {
+
+	query := db.Scopes(Paginate(c))
+
+	if c.Query("name") != "" {
+		query = query.Where("name LIKE ?", "%"+c.Query("name")+"%")
+	}
+
+	err := query.Find(&equipments).Error
+
+	if err != nil {
 		return nil, err
 	}
+
 	var equipmentsResponse []schemas.EquipmentResponse
 	for _, equipment := range equipments {
 		equipmentsResponse = append(equipmentsResponse, equipment.ToResponse())
