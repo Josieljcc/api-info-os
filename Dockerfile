@@ -1,7 +1,7 @@
 # Use the official Golang image as the base image
 FROM golang:1.24-alpine
 # Install mysql-client
-RUN apk add --no-cache mysql-client
+RUN apt-get update && apt-get install -y default-mysql-client
 # Set the Current Working Directory inside the container
 WORKDIR /app
 # Copy go mod file
