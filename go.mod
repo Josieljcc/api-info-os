@@ -1,6 +1,6 @@
 module github.com/Josieljcc/api-info-os
 
-go 1.22.3
+go 1.24
 
 require (
 	github.com/gin-contrib/cors v1.7.2
