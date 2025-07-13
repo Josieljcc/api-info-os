@@ -67,4 +67,6 @@ func initializeRoutes(router *gin.Engine) {
 	authRoutes.PUT(equipmentPatch+"/:id", controller.UpdateEquipmentController)
 	authRoutes.DELETE(equipmentPatch+"/:id", controller.DeleteEquipmentController)
 	authRoutes.GET(equipmentPatch, controller.GetEquipmentsController)
+
+	authRoutes.GET("/backup", controller.BackupDBController)
 }
