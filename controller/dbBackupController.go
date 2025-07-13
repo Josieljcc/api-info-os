@@ -32,9 +32,9 @@ func BackupDBController(c *gin.Context) {
 		dbName,
 	)
 
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		c.String(500, fmt.Sprintf("Error creating backup: %s", err))
+		c.String(500, fmt.Sprintf("Erro ao gerar backup:\n%s\nDetalhes: %v", string(output), err))
 		return
 	}
 
