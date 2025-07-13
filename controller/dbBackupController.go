@@ -29,7 +29,6 @@ func BackupDBController(c *gin.Context) {
 		"-h", dbHost,
 		"-u", dbUser,
 		fmt.Sprintf("-p%s", dbPassword),
-		"--ssl-mode=DISABLED",
 		dbName,
 	)
 
