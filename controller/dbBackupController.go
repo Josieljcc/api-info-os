@@ -2,6 +2,8 @@ package controller
 
 import (
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"time"
@@ -33,6 +35,7 @@ func BackupDBController(c *gin.Context) {
 	filename := fmt.Sprintf("backup_%s.sql", timestamp)
 
 	cmd := exec.Command("mysqldump",
+		"--no-tablespaces",
 		"-h", dbHost,
 		"-u", dbUser,
 		fmt.Sprintf("-p%s", dbPassword),
@@ -65,16 +68,22 @@ func RestoreDBController(c *gin.Context) {
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		c.String(400, "Arquivo não enviado corretamente: %v", err)
+		c.String(http.StatusBadRequest, "Arquivo não encontrado na requisição")
 		return
 	}
 
-	tempPath := fmt.Sprintf("/tmp/%s", file.Filename)
-	if err := c.SaveUploadedFile(file, tempPath); err != nil {
-		c.String(500, "Erro ao salvar arquivo temporariamente: %v", err)
+	tempFile, err := file.Open()
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Erro ao abrir o arquivo")
 		return
 	}
-	defer os.Remove(tempPath)
+	defer tempFile.Close()
+
+	fileBytes, err := io.ReadAll(tempFile)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Erro ao ler o conteúdo do arquivo")
+		return
+	}
 
 	dbUser := os.Getenv("MYSQL_USER")
 	dbPassword := os.Getenv("MYSQL_PASSWORD")
@@ -88,14 +97,16 @@ func RestoreDBController(c *gin.Context) {
 		dbName,
 	)
 
-	sqlFile, err := os.Open(tempPath)
+	stdin, err := cmd.StdinPipe()
 	if err != nil {
-		c.String(500, "Erro ao abrir arquivo para restauração: %v", err)
+		c.String(http.StatusInternalServerError, "Erro ao criar stdin pipe")
 		return
 	}
-	defer sqlFile.Close()
 
-	cmd.Stdin = sqlFile
+	go func() {
+		defer stdin.Close()
+		stdin.Write(fileBytes)
+	}()
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -103,5 +114,5 @@ func RestoreDBController(c *gin.Context) {
 		return
 	}
 
-	c.String(200, "Restauração concluída com sucesso")
+	c.String(200, "Backup restaurado com sucesso!")
 }
