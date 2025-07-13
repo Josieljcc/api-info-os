@@ -1,6 +1,8 @@
 services:
   app:
     build: .
+    volumes:
+      - ./backups:/app/backups
     depends_on:
       - db
     ports:
