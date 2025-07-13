@@ -1,5 +1,7 @@
 # Use the official Golang image as the base image
 FROM golang:latest
+# install MySQL client
+RUN apk add --no-cache mysql-client
 # Set the Current Working Directory inside the container
 WORKDIR /app
 # Copy go mod file
