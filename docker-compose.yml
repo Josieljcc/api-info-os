@@ -1,26 +1,25 @@
 services:
-  app:
-    build: .
-    depends_on:
-      - db
-    ports:
-      - 8080:8080
-    environment:
-      - JWT_SECRET=${JWT_SECRET}
-      - URL_DATABASE=${URL_DATABASE}
-    restart: always
+  # app:
+  #   build: .
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - JWT_SECRET=${JWT_SECRET}
+  #     - URL_DATABASE=${URL_DATABASE}
+  #   restart: always
   db:
     image: mysql:latest
     container_name: db
+    environment:
+      - MYSQL_ROOT_PASSWORD=infoOskey
+      - MYSQL_DATABASE=infoos
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=infoOskey
     ports:
       - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: always
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run --token eyJhIjoiOTZiNGY0ODU5NGU5NDgyYmFhZjBjZGY0ODJiZGY4MzMiLCJ0IjoiYmI1M2MyNDgtMWZiNy00OGM3LWE3MmYtMWEwOTY5MWVhZDYwIiwicyI6Ik5tTmhOek5qT0dRdFl6azRZUzAwWldFMExXRmlaRFV0Tm1VMllqZ3lNVEF6WVdNeiJ9
-    restart: always
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   command: tunnel --no-autoupdate run --token eyJhIjoiOTZiNGY0ODU5NGU5NDgyYmFhZjBjZGY0ODJiZGY4MzMiLCJ0IjoiYmI1M2MyNDgtMWZiNy00OGM3LWE3MmYtMWEwOTY5MWVhZDYwIiwicyI6Ik5tTmhOek5qT0dRdFl6azRZUzAwWldFMExXRmlaRFV0Tm1VMllqZ3lNVEF6WVdNeiJ9
+  #   restart: always
