@@ -69,4 +69,5 @@ func initializeRoutes(router *gin.Engine) {
 	authRoutes.GET(equipmentPatch, controller.GetEquipmentsController)
 
 	authRoutes.GET("/backup", controller.BackupDBController)
+	authRoutes.POST("/restore", controller.RestoreDBController)
 }
