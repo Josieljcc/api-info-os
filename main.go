@@ -1,10 +1,14 @@
 package main
 
 import (
+	"log"
+
 	"github.com/Josieljcc/api-info-os/config"
 	"github.com/Josieljcc/api-info-os/docs"
 	"github.com/Josieljcc/api-info-os/router"
+	"github.com/Josieljcc/api-info-os/tasks"
 	"github.com/joho/godotenv"
+	"github.com/robfig/cron/v3"
 )
 
 // @title API de Controle de Ordens de Serviço
@@ -28,6 +32,8 @@ func main() {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
+	c := cron.New()
+
 	err := godotenv.Load()
 	if err != nil {
 		println("Error loading .env file")
@@ -37,6 +43,11 @@ func main() {
 	if err != nil {
 		println("Error loading config file")
 		return
+	}
+
+	_, err = c.AddFunc("0 2 * * *", tasks.RunBackup)
+	if err != nil {
+		log.Fatalf("Erro ao agendar backup: %v", err)
 	}
 
 	router.Initialize()
