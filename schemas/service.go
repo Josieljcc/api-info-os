@@ -29,6 +29,7 @@ func (s Service) ToResponse() ServiceResponse {
 		ID:          s.ID,
 		Name:        s.Name,
 		Description: s.Description,
+		Time:        s.Time,
 		Price:       s.Price,
 	}
 }
