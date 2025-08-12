@@ -67,6 +67,12 @@ func UpdateService(service schemas.Service, id string) (schemas.ServiceResponse,
 	if service.Description != "" {
 		serviceUpdated.Description = service.Description
 	}
+	if service.Name != "" {
+		serviceUpdated.Name = service.Name
+	}
+	if service.Description != "" {
+		serviceUpdated.Description = service.Description
+	}
 	if service.Price != 0 {
 		serviceUpdated.Price = service.Price
 	}
