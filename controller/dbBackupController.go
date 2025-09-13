@@ -36,6 +36,7 @@ func BackupDBController(c *gin.Context) {
 
 	cmd := exec.Command("mysqldump",
 		"--no-tablespaces",
+		"--ssl-mode=DISABLED",
 		"-h", dbHost,
 		"-u", dbUser,
 		fmt.Sprintf("-p%s", dbPassword),
@@ -91,6 +92,7 @@ func RestoreDBController(c *gin.Context) {
 	dbHost := "db"
 
 	cmd := exec.Command("mysql",
+		"--ssl-mode=DISABLED",
 		"-h", dbHost,
 		"-u", dbUser,
 		fmt.Sprintf("-p%s", dbPassword),
