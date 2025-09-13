@@ -17,7 +17,7 @@ func RunBackup() {
 	filename := fmt.Sprintf("backup_%s.sql", timestamp)
 
 	cmd := exec.Command("mysqldump",
-		"--ssl-mode=DISABLED",
+		"--skip-ssl",
 		"-h", dbHost,
 		"-u", dbUser,
 		fmt.Sprintf("-p%s", dbPassword),
