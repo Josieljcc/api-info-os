@@ -31,7 +31,7 @@ func GetOrderController(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, order)
+	c.JSON(http.StatusOK, order.ToResponse())
 }
 
 // @Summary Get Orders
