@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/Josieljcc/api-info-os/schemas"
@@ -11,6 +12,7 @@ import (
 func initMySQL() (*gorm.DB, error) {
 	logger := GetLogger("[mysql] ")
 	dsn := os.Getenv("URL_DATABASE")
+	fmt.Println(dsn)
 	if dsn == "" {
 		logger.Errorf("URL_DATABASE is not set")
 		return nil, new(os.PathError)

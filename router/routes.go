@@ -54,6 +54,7 @@ func initializeRoutes(router *gin.Engine) {
 	authRoutes.POST(orderPatch, controller.CreateOrderController)
 	authRoutes.DELETE(orderPatch+"/:id", controller.DeleteOrderController)
 	authRoutes.PUT(orderPatch+"/:id", controller.UpdateOrderController)
+	authRoutes.PATCH(orderPatch+"/:id/close", controller.CloseOrderController)
 	authRoutes.GET(orderPatch, controller.GetOrdersController)
 
 	authRoutes.GET(servicePatch+"/:id", controller.GetServiceController)

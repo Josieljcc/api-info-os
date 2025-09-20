@@ -152,3 +152,31 @@ func DeleteOrderController(c *gin.Context) {
 		"message": "Order deleted",
 	})
 }
+
+// @Summary Close Order
+// @Description Close an order by setting status to 'completed' and adding closing date
+// @Tags Order
+// @Accept  json
+// @Produce  json
+// @Param   id    path  string  true "Order ID"
+// @Param authorization header string true "Bearer Authorization"
+// @Success 200 {object} schemas.OrderResponse
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /orders/{id}/close [patch]
+func CloseOrderController(c *gin.Context) {
+	isAuthorized := utils.VerifyRole(c)
+	if !isAuthorized {
+		return
+	}
+
+	id := c.Param("id")
+	orderResponse, err := service.CloseOrder(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, orderResponse)
+}

@@ -36,8 +36,7 @@ func main() {
 
 	err := godotenv.Load()
 	if err != nil {
-		println("Error loading .env file")
-		return
+		println("Warning: Error loading .env file, continuing with environment variables")
 	}
 	err = config.Init()
 	if err != nil {

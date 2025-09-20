@@ -24,6 +24,28 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/backup": {
+            "get": {
+                "description": "Backup a database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Database"
+                ],
+                "summary": "Backup a database",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/client": {
             "get": {
                 "description": "Get all clients",
@@ -575,6 +597,63 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/orders/{id}/close": {
+            "patch": {
+                "description": "Close an order by setting status to 'completed' and adding closing date",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Close Order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.OrderResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/part": {
             "get": {
                 "description": "Get Parts",
@@ -709,6 +788,35 @@ const docTemplate = `{
                         "description": "ID",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/restore": {
+            "post": {
+                "description": "Restore a database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Database"
+                ],
+                "summary": "Restore a database",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer Authorization",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "File",
+                        "name": "file",
+                        "in": "formData",
                         "required": true
                     }
                 ],
@@ -1149,25 +1257,81 @@ const docTemplate = `{
         "schemas.OrderResponse": {
             "type": "object",
             "properties": {
+                "client": {
+                    "$ref": "#/definitions/schemas.ClientResponse"
+                },
                 "clientId": {
+                    "type": "string"
+                },
+                "closingDate": {
                     "type": "string"
                 },
                 "comment": {
                     "type": "string"
                 },
-                "date": {
+                "forecastDate": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "status": {
+                "openingDate": {
                     "type": "string"
+                },
+                "parts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.PartResponse"
+                    }
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ServiceResponse"
+                    }
+                },
+                "status": {
+                    "$ref": "#/definitions/schemas.OrderStatus"
                 },
                 "technicianId": {
                     "type": "string"
                 }
             }
+        },
+        "schemas.OrderStatus": {
+            "type": "string",
+            "enum": [
+                "open",
+                "in_progress",
+                "waiting",
+                "completed",
+                "cancelled",
+                "suspended"
+            ],
+            "x-enum-comments": {
+                "StatusCancelled": "OS cancelada",
+                "StatusCompleted": "OS finalizada com sucesso",
+                "StatusInProgress": "OS em execução",
+                "StatusOpen": "OS recém criada",
+                "StatusSuspended": "OS temporariamente suspensa",
+                "StatusWaiting": "Aguardando peças ou cliente"
+            },
+            "x-enum-descriptions": [
+                "OS recém criada",
+                "OS em execução",
+                "Aguardando peças ou cliente",
+                "OS finalizada com sucesso",
+                "OS cancelada",
+                "OS temporariamente suspensa"
+            ],
+            "x-enum-varnames": [
+                "StatusOpen",
+                "StatusInProgress",
+                "StatusWaiting",
+                "StatusCompleted",
+                "StatusCancelled",
+                "StatusSuspended"
+            ]
         },
         "schemas.PartCreate": {
             "type": "object",

@@ -95,19 +95,63 @@ definitions:
     type: object
   schemas.OrderResponse:
     properties:
+      client:
+        $ref: '#/definitions/schemas.ClientResponse'
       clientId:
+        type: string
+      closingDate:
         type: string
       comment:
         type: string
-      date:
+      forecastDate:
         type: string
       id:
         type: integer
-      status:
+      openingDate:
         type: string
+      parts:
+        items:
+          $ref: '#/definitions/schemas.PartResponse'
+        type: array
+      services:
+        items:
+          $ref: '#/definitions/schemas.ServiceResponse'
+        type: array
+      status:
+        $ref: '#/definitions/schemas.OrderStatus'
       technicianId:
         type: string
     type: object
+  schemas.OrderStatus:
+    enum:
+    - open
+    - in_progress
+    - waiting
+    - completed
+    - cancelled
+    - suspended
+    type: string
+    x-enum-comments:
+      StatusCancelled: OS cancelada
+      StatusCompleted: OS finalizada com sucesso
+      StatusInProgress: OS em execução
+      StatusOpen: OS recém criada
+      StatusSuspended: OS temporariamente suspensa
+      StatusWaiting: Aguardando peças ou cliente
+    x-enum-descriptions:
+    - OS recém criada
+    - OS em execução
+    - Aguardando peças ou cliente
+    - OS finalizada com sucesso
+    - OS cancelada
+    - OS temporariamente suspensa
+    x-enum-varnames:
+    - StatusOpen
+    - StatusInProgress
+    - StatusWaiting
+    - StatusCompleted
+    - StatusCancelled
+    - StatusSuspended
   schemas.PartCreate:
     properties:
       description:
@@ -194,6 +238,21 @@ info:
   title: API de Controle de Ordens de Serviço
   version: "1.0"
 paths:
+  /backup:
+    get:
+      description: Backup a database
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Backup a database
+      tags:
+      - Database
   /client:
     get:
       consumes:
@@ -563,6 +622,45 @@ paths:
       summary: Update Order
       tags:
       - Order
+  /orders/{id}/close:
+    patch:
+      consumes:
+      - application/json
+      description: Close an order by setting status to 'completed' and adding closing
+        date
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.OrderResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Close Order
+      tags:
+      - Order
   /part:
     get:
       consumes:
@@ -658,6 +756,26 @@ paths:
       summary: Update Part
       tags:
       - Part
+  /restore:
+    post:
+      description: Restore a database
+      parameters:
+      - description: Bearer Authorization
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      summary: Restore a database
+      tags:
+      - Database
   /services:
     get:
       consumes:

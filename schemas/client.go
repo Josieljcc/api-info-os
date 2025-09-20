@@ -6,7 +6,6 @@ import (
 
 type Client struct {
 	gorm.Model
-	ID       uint    `gorm:"primaryKey" json:"id" auto:"increment"`
 	Name     string  `gorm:"size:100;not null" json:"name"`
 	Password string  `gorm:"size:100;not null; hash:bcrypt" json:"password"`
 	Email    string  `gorm:"size:100;not null;uniqueIndex" json:"email"`
