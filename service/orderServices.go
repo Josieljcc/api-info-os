@@ -27,6 +27,22 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 		query = query.Where("technician_id = ?", c.Query("technicianID"))
 	}
 
+	if c.Query("openingDate") != "" {
+		openingDate, err := time.Parse("2006-01-02", c.Query("openingDate"))
+		if err != nil {
+			return nil, err
+		}
+		query = query.Where("opening_date = ?", openingDate)
+	}
+
+	if c.Query("forecastDate") != "" {
+		forecastDate, err := time.Parse("2006-01-02", c.Query("forecastDate"))
+		if err != nil {
+			return nil, err
+		}
+		query = query.Where("forecast_date = ?", forecastDate)
+	}
+
 	err := query.Preload("Client").Preload("Technician").Preload("Services").Preload("Parts").Find(&orders).Error
 
 	if err != nil {
