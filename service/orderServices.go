@@ -19,8 +19,8 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 		query = query.Where("client_id = ?", c.Query("clientID"))
 	}
 
-	if c.Query("clientName") != "" {
-		query = query.Joins("Client").Where("clients.name LIKE ?", "%"+c.Query("clientName")+"%")
+	if clientName := c.Query("clientName"); clientName != "" {
+		query = query.Joins("LEFT JOIN clients ON clients.id = orders.client_id").Where("clients.name LIKE ?", "%"+clientName+"%")
 	}
 
 	if c.Query("status") != "" {
@@ -30,12 +30,12 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 	if c.Query("technicianID") != "" {
 		query = query.Where("technician_id = ?", c.Query("technicianID"))
 	}
-	if c.Query("openingDate") != "" {
-		openingDate, err := parseQueryDate(c.Query("openingDate"))
+	if openingDate := c.Query("openingDate"); openingDate != "" {
+		parsed, err := parseQueryDate(openingDate)
 		if err != nil {
 			return nil, err
 		}
-		query = query.Where("opening_date = ?", openingDate)
+		query = query.Where("DATE(opening_date) = ?", parsed.Format("2006-01-02"))
 	}
 
 	if c.Query("openingStartDate") != "" && c.Query("openingEndDate") != "" {
@@ -47,15 +47,15 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 		if err != nil {
 			return nil, err
 		}
-		query = query.Where("opening_date BETWEEN ? AND ?", openingStartDate, openingEndDate)
+		query = query.Where("DATE(opening_date) BETWEEN ? AND ?", openingStartDate.Format("2006-01-02"), openingEndDate.Format("2006-01-02"))
 	}
 
-	if c.Query("forecastDate") != "" {
-		forecastDate, err := parseQueryDate(c.Query("forecastDate"))
+	if forecastDate := c.Query("forecastDate"); forecastDate != "" {
+		parsed, err := parseQueryDate(forecastDate)
 		if err != nil {
 			return nil, err
 		}
-		query = query.Where("forecast_date = ?", forecastDate)
+		query = query.Where("DATE(forecast_date) = ?", parsed.Format("2006-01-02"))
 	}
 
 	if c.Query("forecastStartDate") != "" && c.Query("forecastEndDate") != "" {
@@ -67,7 +67,7 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 		if err != nil {
 			return nil, err
 		}
-		query = query.Where("forecast_date BETWEEN ? AND ?", forecastStartDate, forecastEndDate)
+		query = query.Where("DATE(forecast_date) BETWEEN ? AND ?", forecastStartDate.Format("2006-01-02"), forecastEndDate.Format("2006-01-02"))
 	}
 
 	err := query.Preload("Client").Preload("Technician").Preload("Services").Preload("Parts").Find(&orders).Error
