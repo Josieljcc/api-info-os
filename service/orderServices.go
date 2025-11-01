@@ -19,6 +19,10 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 		query = query.Where("client_id = ?", c.Query("clientID"))
 	}
 
+	if c.Query("clientName") != "" {
+		query = query.Joins("Client").Where("clients.name LIKE ?", "%"+c.Query("clientName")+"%")
+	}
+
 	if c.Query("status") != "" {
 		query = query.Where("status = ?", c.Query("status"))
 	}
@@ -26,21 +30,44 @@ func GetOrders(c *gin.Context) ([]schemas.OrderResponse, error) {
 	if c.Query("technicianID") != "" {
 		query = query.Where("technician_id = ?", c.Query("technicianID"))
 	}
-
 	if c.Query("openingDate") != "" {
-		openingDate, err := time.Parse("2006-01-02", c.Query("openingDate"))
+		openingDate, err := parseQueryDate(c.Query("openingDate"))
 		if err != nil {
 			return nil, err
 		}
 		query = query.Where("opening_date = ?", openingDate)
 	}
 
+	if c.Query("openingStartDate") != "" && c.Query("openingEndDate") != "" {
+		openingStartDate, err := parseQueryDate(c.Query("openingStartDate"))
+		if err != nil {
+			return nil, err
+		}
+		openingEndDate, err := parseQueryDate(c.Query("openingEndDate"))
+		if err != nil {
+			return nil, err
+		}
+		query = query.Where("opening_date BETWEEN ? AND ?", openingStartDate, openingEndDate)
+	}
+
 	if c.Query("forecastDate") != "" {
-		forecastDate, err := time.Parse("2006-01-02", c.Query("forecastDate"))
+		forecastDate, err := parseQueryDate(c.Query("forecastDate"))
 		if err != nil {
 			return nil, err
 		}
 		query = query.Where("forecast_date = ?", forecastDate)
+	}
+
+	if c.Query("forecastStartDate") != "" && c.Query("forecastEndDate") != "" {
+		forecastStartDate, err := parseQueryDate(c.Query("forecastStartDate"))
+		if err != nil {
+			return nil, err
+		}
+		forecastEndDate, err := parseQueryDate(c.Query("forecastEndDate"))
+		if err != nil {
+			return nil, err
+		}
+		query = query.Where("forecast_date BETWEEN ? AND ?", forecastStartDate, forecastEndDate)
 	}
 
 	err := query.Preload("Client").Preload("Technician").Preload("Services").Preload("Parts").Find(&orders).Error
@@ -117,23 +144,19 @@ func CloseOrder(id string) (schemas.OrderResponse, error) {
 	db := config.GetDB()
 	var order schemas.Order
 
-	// Busca a ordem
 	err := db.Preload("Client").Preload("Technician").Preload("Services").Preload("Parts").First(&order, id).Error
 	if err != nil {
 		return schemas.OrderResponse{}, err
 	}
 
-	// Verifica se a ordem já está fechada
 	if order.Status == schemas.StatusCompleted {
 		return schemas.OrderResponse{}, errors.New("ordem de serviço já está fechada")
 	}
 
-	// Atualiza o status para concluída e define a data de fechamento
 	now := time.Now()
 	order.Status = schemas.StatusCompleted
 	order.ClosingDate = &now
 
-	// Salva as alterações
 	if err := db.Save(&order).Error; err != nil {
 		return schemas.OrderResponse{}, err
 	}
@@ -147,4 +170,23 @@ func DeleteOrder(id string) error {
 		return err
 	}
 	return nil
+}
+
+func parseQueryDate(value string) (time.Time, error) {
+	layouts := []string{
+		"2006-01-02",
+		time.RFC3339,
+		time.RFC3339Nano,
+	}
+
+	var err error
+	for _, layout := range layouts {
+		var parsed time.Time
+		parsed, err = time.Parse(layout, value)
+		if err == nil {
+			return parsed, nil
+		}
+	}
+
+	return time.Time{}, err
 }
